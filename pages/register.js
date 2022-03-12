@@ -2,15 +2,18 @@ import React, { useState } from "react";
 import Lottie from "lottie-react";
 import { FcGoogle } from "react-icons/fc";
 import { RiEyeOffFill, RiEyeFill } from "react-icons/ri";
-import interview from "../public/images/interview.json";
+import interview from "../public/interview.json";
 import Link from "next/link";
-import Toastify from "toastify-js";
 import "toastify-js/src/toastify.css";
 import { useRouter } from "next/router";
-import { register } from "../services/user_services";
+import { register } from "../services/auth_services";
+import { useDispatch } from "react-redux";
+import { setAuth } from "../redux/reducers/authSlice";
+import { showToast } from "../helpers/showToast";
 
 const Register = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [isPassHidden, setIspasshidden] = useState(true);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -20,57 +23,31 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     if (pass !== confirmPass) {
-      Toastify({
-        text: "Confirm password does not match",
-        duration: 3000,
-        newWindow: false,
-        close: false,
-        gravity: "top",
-        position: "center",
-        stopOnFocus: true,
-        style: {
-          background: "#ff5656",
-          borderRadius: "10px",
-        },
-      }).showToast();
+      showToast("Confirm Password does not match", "#ff5656");
     } else {
       try {
         const { data } = await register(name, email, pass);
         if (data.success === false) {
-          return Toastify({
-            text: data.message,
-            duration: 3000,
-            newWindow: false,
-            close: false,
-            gravity: "top",
-            position: "center",
-            stopOnFocus: true,
-            style: {
-              background: "#ff5656",
-              borderRadius: "10px",
-            },
-          }).showToast();
+          return showToast(data.message, "#ff5656");
         }
-        router.push("/addDetails", { query: true });
-        setName("");
-        setEmail("");
-        setPass("");
-        setConfirmpass("");
+        // Add user to redux
+        if (data.success === true) {
+          dispatch(
+            setAuth({
+              auth: data.auth,
+              user: data.user,
+            })
+          );
+          // router.push("/addDetails", { query: true });
+          router.push("/");
+          setName("");
+          setEmail("");
+          setPass("");
+          setConfirmpass("");
+        }
       } catch (error) {
         console.log(error);
-        Toastify({
-          text: error.message,
-          duration: 3000,
-          newWindow: false,
-          close: false,
-          gravity: "top",
-          position: "center",
-          stopOnFocus: true,
-          style: {
-            background: "#ff5656",
-            borderRadius: "10px",
-          },
-        }).showToast();
+        showToast(error.message, "#ff5656");
       }
     }
   };

@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { prismaClient } from "../config/prisma";
+import prisma from "../config/prisma";
 
 export const hashPassword = async (password) => {
   try {
@@ -11,7 +11,15 @@ export const hashPassword = async (password) => {
   }
 };
 
-export const generateToken = (payload) => {
+export const comparePassword = async (password, hashedPass) => {
+  try {
+    return await bcrypt.compare(password, hashedPass);
+  } catch (error) {
+    throw new Error("Hashing failed", error);
+  }
+};
+
+export const generateTokens = (payload) => {
   const accessToken = jwt.sign(payload, process.env.accessTokenSecret, {
     expiresIn: "1m",
   });
@@ -23,7 +31,7 @@ export const generateToken = (payload) => {
 
 export const storeRefreshToken = async (token, userId) => {
   try {
-    await prismaClient.token.create({
+    await prisma.token.create({
       data: {
         token,
         userId,
@@ -41,16 +49,15 @@ export const verifyRefreshToken = (token) =>
   jwt.verify(token, process.env.refreshTokenSecret);
 
 export const findRefreshToken = async (userId, refreshToken) => {
-  return await prismaClient.token.findUnique({
+  return await prisma.token.findUnique({
     where: {
-      userId: userId,
       token: refreshToken,
     },
   });
 };
 
 export const updateRefreshToken = async (userId, refreshToken) => {
-  return await prismaClient.token.update({
+  return await prisma.token.update({
     where: {
       userId: userId,
     },
@@ -60,9 +67,10 @@ export const updateRefreshToken = async (userId, refreshToken) => {
   });
 };
 
-export const removeToken = async (refreshToken) => {
-  return await prismaClient.token.delete({
+export const removeToken = async (id, refreshToken) => {
+  return await prisma.token.deleteMany({
     where: {
+      id: id,
       token: refreshToken,
     },
   });

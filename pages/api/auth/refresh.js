@@ -1,47 +1,78 @@
-import { hashPassword } from "../../../helpers/helpers";
-import { prismaClient } from "../../../config/prisma";
+import prisma from "../../../config/prisma";
+import { getCookies, setCookies } from "cookies-next";
+import {
+  findRefreshToken,
+  verifyRefreshToken,
+  generateTokens,
+  updateRefreshToken,
+} from "../../../helpers/helpers";
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
-    const { name, email, password } = req.body;
-    if (!name || !email || !password) {
-      return res.status(400).json({
-        message: "Please fill all the fields",
-      });
-    }
-
+    // get refresh token from cookie
+    const { refreshToken: refreshTokenFromCookie } = getCookies({req,res});
+    // check if token is valid
+    let userData;
     try {
-      // Check if email alread exists
-      const hasUser = await prismaClient.user.findUnique({
-        where: {
-          email,
-        },
-      });
-      if (hasUser) {
-        return res.json({
-          success: false,
-          message: "Email already exists",
-        });
-      }
-      // Hash password
-      const hashedPass = await hashPassword(password);
-
-      // Register user
-      await prismaClient.user.create({
-        data: {
-          name,
-          email,
-          password: hashedPass,
-          profile: "",
-          type: "finder",
-        },
-      });
-      // Generate token
-
-      return res.status("200").json("User registered successfully");
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json("Server Error");
+      userData = await verifyRefreshToken(refreshTokenFromCookie);
+    } catch (err) {
+      return res.status(401).json({ message: "Invalid Token" });
     }
+    // Check if token is in db
+    try {
+      const token = await findRefreshToken(userData.id, refreshTokenFromCookie);
+      if (!token) {
+        return res.status(401).json({ message: "Invalid token" });
+      }
+    } catch (err) {
+      return res.status(500).json({ message: "Internal error" });
+    }
+    // check if valid user
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userData.id,
+      },
+    });
+    if (!user) {
+      return res.status(404).json({ message: "No user" });
+    }
+    // Generate new tokens
+    const { refreshToken, accessToken } = generateTokens({
+      id: userData.id,
+    });
+
+    // Update refresh token
+    try {
+      await updateRefreshToken(userData.id, refreshToken);
+    } catch (err) {
+      return res.status(500).json({ message: "Internal error" });
+    }
+    // put in cookie
+    setCookies("refreshToken", refreshToken, {
+      req,
+      res,
+      httpOnly: true,
+      sameSite: true,
+      maxAge: 1000 * 60 * 60 * 24 * 30,
+    });
+    setCookies("accessToken", accessToken, {
+      req,
+      res,
+      httpOnly: true,
+      sameSite: true,
+      maxAge: 1000 * 60 * 60 * 24 * 30,
+    });
+    // response
+    res.json({
+      success: true,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        profile: user.profile,
+        type: user.type,
+      },
+      isAuth: true,
+    });
   }
 }

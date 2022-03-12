@@ -8,39 +8,30 @@ import prisma from "../../../config/prisma";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    const { name, email, password } = req.body;
-    if (!name || !email || !password) {
-      return res.status(400).json({
-        message: "Please fill all the fields",
-      });
-    }
+    const { name, email, profile } = req.body;
 
     try {
       // Check if email alread exists
-      const hasUser = await prisma.user.findUnique({
+      let user;
+      user = await prisma.user.findUnique({
         where: {
           email,
         },
       });
-      if (hasUser) {
-        return res.json({
-          success: false,
-          message: "Email already exists",
+
+      if (!user) {
+        // Register user
+        user = await prisma.user.create({
+          data: {
+            name,
+            email,
+            password: "",
+            profile: profile,
+            type: "employee",
+          },
         });
       }
-      // Hash password
-      const hashedPass = await hashPassword(password);
 
-      // Register user
-      const user = await prisma.user.create({
-        data: {
-          name,
-          email,
-          password: hashedPass,
-          profile: "",
-          type: "employee",
-        },
-      });
       // Generate token
       const { accessToken, refreshToken } = generateTokens({
         id: user.id,

@@ -1,17 +1,47 @@
 import React, { useState } from "react";
 import Lottie from "lottie-react";
 import { FcGoogle } from "react-icons/fc";
-import interview from "../public/images/interview.json";
+import interview from "../public/interview.json";
 import Link from "next/link";
 import { RiEyeFill, RiEyeOffFill } from "react-icons/ri";
+import { gmailSignin, login } from "../services/auth_services";
+import { showToast } from "../helpers/showToast";
+import { setAuth } from "../redux/reducers/authSlice";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
+import GoogleLogin from "react-google-login";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const router = useRouter();
   const [isPassHidden, setIspasshidden] = useState(true);
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    try {
+      const { data } = await login(email, pass);
+      if (data.success === false) {
+        return showToast(data.message, "#ff5656");
+      }
+      // Add user to redux
+      if (data.success === true) {
+        dispatch(
+          setAuth({
+            auth: data.auth,
+            user: data.user,
+          })
+        );
+        // router.push("/addDetails", { query: true });
+        router.push("/");
+        setEmail("");
+        setPass("");
+      }
+    } catch (error) {
+      console.log(error);
+      showToast(error.message, "#ff5656");
+    }
   };
 
   return (
@@ -21,6 +51,7 @@ const Login = () => {
         <div className="flex items-center gap-1">
           <span className="text-3xl font-semibold">Get Your</span>
           <span className="text-3xl font-semibold text-sky-500">Dream Job</span>
+          <span className="text-3xl font-semibold">Here</span>
         </div>
         <div>
           <Lottie animationData={interview} autoPlay={true} loop={true} />
@@ -99,12 +130,51 @@ const Login = () => {
         </form>
         {/* Social logins */}
         <div className="flex items-center justify-center gap-4">
-          <div className="cursor-pointer rounded-xl bg-sky-200 p-2">
-            <FcGoogle fontSize="30px" />
-          </div>
-          <div className="cursor-pointer rounded-xl bg-sky-200 p-2">
-            <FcGoogle fontSize="30px" />
-          </div>
+          <GoogleLogin
+            clientId="965384392974-4sfaf5bi14sgi593nn8491mc21dn1u2b.apps.googleusercontent.com"
+            buttonText="Continue with Google"
+            render={(renderProps) => (
+              <button
+                onClick={renderProps.onClick}
+                disabled={renderProps.disabled}
+              >
+                <div className="flex cursor-pointer items-center gap-2 rounded-xl bg-sky-100 py-2 px-6 hover:bg-sky-200">
+                  <FcGoogle fontSize={25} />
+                  <span className="text-sm font-semibold tracking-wider text-sky-500">
+                    Continue with Google
+                  </span>
+                </div>
+              </button>
+            )}
+            onSuccess={async (response) => {
+              try {
+                const { data } = await gmailSignin(
+                  response.profileObj.name,
+                  response.profileObj.email,
+                  response.profileObj.imageUrl
+                );
+                if (data.success === false) {
+                  return showToast(data.message, "#ff5656");
+                }
+                // Add user to redux
+                if (data.success === true) {
+                  dispatch(
+                    setAuth({
+                      auth: data.auth,
+                      user: data.user,
+                    })
+                  );
+                  // router.push("/addDetails", { query: true });
+                  router.push("/");
+                }
+              } catch (error) {
+                console.log(error);
+                showToast(error.message, "#ff5656");
+              }
+            }}
+            onFailure={(response) => console.log(response)}
+            cookiePolicy={"single_host_origin"}
+          />
         </div>
         <div className="flex items-center justify-center gap-1">
           <span className="text-sm font-medium tracking-wider text-black">
