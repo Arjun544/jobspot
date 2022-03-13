@@ -4,12 +4,12 @@ import { FcGoogle } from "react-icons/fc";
 import interview from "../public/interview.json";
 import Link from "next/link";
 import { RiEyeFill, RiEyeOffFill } from "react-icons/ri";
-import { gmailSignin, login } from "../services/auth_services";
-import { showToast } from "../helpers/showToast";
+import { gmailLogin, login } from "../services/auth_services";
 import { setAuth } from "../redux/reducers/authSlice";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import GoogleLogin from "react-google-login";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ const Login = () => {
     try {
       const { data } = await login(email, pass);
       if (data.success === false) {
-        return showToast(data.message, "#ff5656");
+        return toast.error(data.message);
       }
       // Add user to redux
       if (data.success === true) {
@@ -33,14 +33,13 @@ const Login = () => {
             user: data.user,
           })
         );
-        // router.push("/addDetails", { query: true });
-        router.push("/");
+        router.push("/addDetails", { query: true });
         setEmail("");
         setPass("");
       }
     } catch (error) {
       console.log(error);
-      showToast(error.message, "#ff5656");
+      return toast.error(error.message);
     }
   };
 
@@ -131,7 +130,7 @@ const Login = () => {
         {/* Social logins */}
         <div className="flex items-center justify-center gap-4">
           <GoogleLogin
-            clientId="965384392974-4sfaf5bi14sgi593nn8491mc21dn1u2b.apps.googleusercontent.com"
+            clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
             buttonText="Continue with Google"
             render={(renderProps) => (
               <button
@@ -141,20 +140,16 @@ const Login = () => {
                 <div className="flex cursor-pointer items-center gap-2 rounded-xl bg-sky-100 py-2 px-6 hover:bg-sky-200">
                   <FcGoogle fontSize={25} />
                   <span className="text-sm font-semibold tracking-wider text-sky-500">
-                    Continue with Google
+                    Login with Google
                   </span>
                 </div>
               </button>
             )}
             onSuccess={async (response) => {
               try {
-                const { data } = await gmailSignin(
-                  response.profileObj.name,
-                  response.profileObj.email,
-                  response.profileObj.imageUrl
-                );
+                const { data } = await gmailLogin(response.profileObj.email);
                 if (data.success === false) {
-                  return showToast(data.message, "#ff5656");
+                  return toast.error(data.message);
                 }
                 // Add user to redux
                 if (data.success === true) {
@@ -164,15 +159,14 @@ const Login = () => {
                       user: data.user,
                     })
                   );
-                  // router.push("/addDetails", { query: true });
-                  router.push("/");
+                  router.push("/addDetails", { query: true });
                 }
               } catch (error) {
                 console.log(error);
-                showToast(error.message, "#ff5656");
+                return toast.error(error.message);
               }
             }}
-            onFailure={(response) => console.log(response)}
+            onFailure={(response) => toast.error("Something went wrong")}
             cookiePolicy={"single_host_origin"}
           />
         </div>

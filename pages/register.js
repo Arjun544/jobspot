@@ -4,12 +4,12 @@ import { FcGoogle } from "react-icons/fc";
 import { RiEyeOffFill, RiEyeFill } from "react-icons/ri";
 import interview from "../public/interview.json";
 import Link from "next/link";
-import "toastify-js/src/toastify.css";
 import { useRouter } from "next/router";
-import { register } from "../services/auth_services";
+import { gmailSignup, register } from "../services/auth_services";
 import { useDispatch } from "react-redux";
 import { setAuth } from "../redux/reducers/authSlice";
-import { showToast } from "../helpers/showToast";
+import { toast } from "react-toastify";
+import GoogleLogin from "react-google-login";
 
 const Register = () => {
   const router = useRouter();
@@ -23,12 +23,12 @@ const Register = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     if (pass !== confirmPass) {
-      showToast("Confirm Password does not match", "#ff5656");
+      toast.warn("Confirm Password does not match");
     } else {
       try {
         const { data } = await register(name, email, pass);
         if (data.success === false) {
-          return showToast(data.message, "#ff5656");
+          return toast.error(data.message);
         }
         // Add user to redux
         if (data.success === true) {
@@ -38,8 +38,7 @@ const Register = () => {
               user: data.user,
             })
           );
-          // router.push("/addDetails", { query: true });
-          router.push("/");
+          router.push("/addDetails", { query: true });
           setName("");
           setEmail("");
           setPass("");
@@ -47,7 +46,7 @@ const Register = () => {
         }
       } catch (error) {
         console.log(error);
-        showToast(error.message, "#ff5656");
+        return toast.error(error.message);
       }
     }
   };
@@ -154,12 +153,50 @@ const Register = () => {
         </form>
         {/* Social logins */}
         <div className="flex items-center justify-center gap-4">
-          <div className="cursor-pointer rounded-xl bg-sky-200 p-2">
-            <FcGoogle fontSize="30px" />
-          </div>
-          <div className="cursor-pointer rounded-xl bg-sky-200 p-2">
-            <FcGoogle fontSize="30px" />
-          </div>
+          <GoogleLogin
+            clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
+            buttonText="Signup with Google"
+            render={(renderProps) => (
+              <button
+                onClick={renderProps.onClick}
+                disabled={renderProps.disabled}
+              >
+                <div className="flex cursor-pointer items-center gap-2 rounded-xl bg-sky-100 py-2 px-6 hover:bg-sky-200">
+                  <FcGoogle fontSize={25} />
+                  <span className="text-sm font-semibold tracking-wider text-sky-500">
+                    Signup with Google
+                  </span>
+                </div>
+              </button>
+            )}
+            onSuccess={async (response) => {
+              try {
+                const { data } = await gmailSignup(
+                  response.profileObj.name,
+                  response.profileObj.email,
+                  response.profileObj.imageUrl,
+                );
+                if (data.success === false) {
+                  return toast.error(data.message);
+                }
+                // Add user to redux
+                if (data.success === true) {
+                  dispatch(
+                    setAuth({
+                      auth: data.auth,
+                      user: data.user,
+                    })
+                  );
+                  router.push("/addDetails", { query: true });
+                }
+              } catch (error) {
+                console.log(error);
+                return toast.error(error.message);
+              }
+            }}
+            onFailure={(response) => toast.error("Something went wrong")}
+            cookiePolicy={"single_host_origin"}
+          />
         </div>
         <div className="flex items-center justify-center gap-1">
           <span className="text-sm font-medium tracking-wider text-black">

@@ -6,6 +6,7 @@ import { MdPerson } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { useOnClickOutside } from "usehooks-ts";
 import { RiChat3Fill, RiLogoutCircleRFill } from "react-icons/ri";
+import { BsFillFileEarmarkCheckFill } from "react-icons/bs";
 import { useRouter } from "next/router";
 import { logout } from "../services/auth_services";
 import { setAuth } from "../redux/reducers/authSlice";
@@ -13,15 +14,21 @@ import { setAuth } from "../redux/reducers/authSlice";
 const options = [
   {
     name: "Profile",
-    icon: <MdPerson fontSize={25} />,
+    icon: <MdPerson className="fill-slate-400" fontSize={25} />,
+  },
+  {
+    name: "Apply as recruiter",
+    icon: (
+      <BsFillFileEarmarkCheckFill className="fill-slate-400" fontSize={22} />
+    ),
   },
   {
     name: "My reviews",
-    icon: <RiChat3Fill fontSize={23} />,
+    icon: <RiChat3Fill className="fill-slate-400" fontSize={23} />,
   },
   {
     name: "Logout",
-    icon: <RiLogoutCircleRFill fontSize={25} />,
+    icon: <RiLogoutCircleRFill className="fill-slate-400" fontSize={25} />,
   },
 ];
 
@@ -47,7 +54,10 @@ const ProfileSection = () => {
     console.log(index);
     if (index === 0) {
       router.push("/profile");
-    } else if (index === 1) {
+    } else if (index === 1) { 
+      router.push("/apply");
+    }
+    else if (index === 2) {
       router.push("/reviews");
     } else {
       const { data } = await logout(user.id);
@@ -55,12 +65,13 @@ const ProfileSection = () => {
     }
   };
 
-  return isAuth ? (
+  return (
     <div
       ref={ref}
       onClick={toggleMenu}
       className="relative flex cursor-pointer items-center gap-4"
     >
+      
       <div className="flex h-10 w-10 items-center justify-center rounded-full bg-yellow-100">
         {user.profile === "" ? (
           <div>
@@ -100,7 +111,7 @@ const ProfileSection = () => {
             <span onClick={(e) => handleItemClick(e, index)} key={index}>
               <div className="flex cursor-pointer items-center gap-4 rounded-xl py-2 pl-2 hover:bg-slate-200">
                 <i> {option.icon}</i>
-                <span className="text-sm font-semibold tracking-wider">
+                <span className="text-xs font-semibold tracking-wider">
                   {option.name}
                 </span>
               </div>
@@ -108,19 +119,6 @@ const ProfileSection = () => {
           ))}
         </div>
       )}
-    </div>
-  ) : (
-    <div className="flex items-center gap-6">
-      <Link href="/login" passHref>
-        <span className="cursor-pointer text-sm font-semibold tracking-wider text-green-500 hover:text-green-400">
-          Login
-        </span>
-      </Link>
-      <Link href="/register" passHref>
-        <button className="rounded-xl bg-sky-400 py-2 px-4 text-sm font-semibold tracking-wider text-white hover:bg-sky-300">
-          Signup
-        </button>
-      </Link>
     </div>
   );
 };

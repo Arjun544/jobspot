@@ -1,7 +1,7 @@
 import React from 'react'
 
-const JobFinderView = () => {
+const ApplyAs = () => {
   return <div className="h-full w-full">RecruiterView</div>;
-}
+};
 
-export default JobFinderView
+export default ApplyAs;

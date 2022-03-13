@@ -16,6 +16,9 @@ model User {
   email     String   @unique
   password  String
   profile   String
+  details   String
+  city      String
+  cv        String
   type      String
   jobs      Job[]
   reviews   Review[]
@@ -37,12 +40,16 @@ model Job {
   id          Int      @id @default(autoincrement())
   title       String
   description String
+  type        String
+  salary      String
   image       String
   user        User     @relation(fields: [userId], references: [id])
   userId      Int
   reviews     Review[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
+  Company     Company? @relation(fields: [companyId], references: [id])
+  companyId   Int?
 }
 
 model Review {
@@ -52,6 +59,23 @@ model Review {
   user      User     @relation(fields: [userId], references: [id])
   userId    Int
   job       Job      @relation(fields: [id], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  Company   Company? @relation(fields: [companyId], references: [id])
+  companyId Int?
+}
+
+model Company {
+  id        Int      @id @default(autoincrement())
+  name      String
+  details   String
+  image     String
+  city      String
+  size      Int
+  industry  String
+  website   String
+  jobs      Job[]
+  reviews   Review[]
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 }

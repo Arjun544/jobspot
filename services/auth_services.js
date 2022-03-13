@@ -15,8 +15,11 @@ export const register = async (name, email, password) =>
 export const login = async (email, password) =>
   await api.post("/auth/login", { email, password });
 
-export const gmailSignin = async (name, email, profile) =>
-  await api.post("/auth/gmail", { name, email, profile });
+export const gmailSignup = async (name, email, profile) =>
+  await api.post("/auth/gmailSignup", { name, email, profile });
+
+export const gmailLogin = async (email) =>
+  await api.post("/auth/gmailLogin", { email });
 
 export const logout = async (id) => await api.post("/auth/logout", { id });
 

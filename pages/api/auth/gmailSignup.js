@@ -1,6 +1,5 @@
 import {
   generateTokens,
-  hashPassword,
   storeRefreshToken,
 } from "../../../helpers/helpers";
 import { setCookies } from "cookies-next";
@@ -11,26 +10,30 @@ export default async function handler(req, res) {
     const { name, email, profile } = req.body;
 
     try {
-      // Check if email alread exists
-      let user;
-      user = await prisma.user.findUnique({
+      // Check if email already exists
+      const hasUser = await prisma.user.findUnique({
         where: {
           email,
         },
       });
 
-      if (!user) {
-        // Register user
-        user = await prisma.user.create({
-          data: {
-            name,
-            email,
-            password: "",
-            profile: profile,
-            type: "employee",
-          },
+      if (hasUser) {
+        return res.json({
+          success: false,
+          message: "Email already exists, please login",
         });
       }
+
+      // Register user
+      const user = await prisma.user.create({
+        data: {
+          name,
+          email,
+          password: "",
+          profile: profile,
+          type: "employee",
+        },
+      });
 
       // Generate token
       const { accessToken, refreshToken } = generateTokens({
