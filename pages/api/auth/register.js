@@ -38,6 +38,9 @@ export default async function handler(req, res) {
           email,
           password: hashedPass,
           profile: "",
+          details: "",
+          city: "",
+          cv: "",
           type: "employee",
         },
       });

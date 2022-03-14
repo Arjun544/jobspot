@@ -22,9 +22,11 @@ model User {
   type      String
   jobs      Job[]
   reviews   Review[]
+  company   Company?
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
   Token     Token[]
+  companyId Int?
 }
 
 model Token {
@@ -48,7 +50,7 @@ model Job {
   reviews     Review[]
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
-  Company     Company? @relation(fields: [companyId], references: [id])
+  company     Company? @relation(fields: [companyId], references: [id])
   companyId   Int?
 }
 
@@ -61,7 +63,7 @@ model Review {
   job       Job      @relation(fields: [id], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
-  Company   Company? @relation(fields: [companyId], references: [id])
+  company   Company? @relation(fields: [companyId], references: [id])
   companyId Int?
 }
 
@@ -78,4 +80,6 @@ model Company {
   reviews   Review[]
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int      @unique
 }

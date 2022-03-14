@@ -9,7 +9,10 @@ const api = axios.create({
   },
 });
 
-export const updateUser = async (email, user) =>
-  await api.post("/user/update", { email, user });
+export const updateUser = async (user) =>
+  await api.post("/user/update", { user });
+
+  export const updateCompany = async (email,company) =>
+    await api.post("/user/updateCompany", { email,company });
 
 export default api;
