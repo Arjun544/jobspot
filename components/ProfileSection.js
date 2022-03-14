@@ -1,12 +1,10 @@
 import Image from "next/image";
-import Link from "next/link";
 import React, { useRef, useState } from "react";
 import { TiArrowSortedDown } from "react-icons/ti";
 import { MdPerson } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { useOnClickOutside } from "usehooks-ts";
 import { RiChat3Fill, RiLogoutCircleRFill } from "react-icons/ri";
-import { BsFillFileEarmarkCheckFill } from "react-icons/bs";
 import { useRouter } from "next/router";
 import { logout } from "../services/auth_services";
 import { setAuth } from "../redux/reducers/authSlice";
@@ -15,12 +13,6 @@ const options = [
   {
     name: "Profile",
     icon: <MdPerson className="fill-slate-400" fontSize={25} />,
-  },
-  {
-    name: "Apply as recruiter",
-    icon: (
-      <BsFillFileEarmarkCheckFill className="fill-slate-400" fontSize={22} />
-    ),
   },
   {
     name: "My reviews",
@@ -34,7 +26,7 @@ const options = [
 
 const ProfileSection = () => {
   const router = useRouter();
-  const { isAuth, user } = useSelector((state) => state.auth);
+  const {user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef();
@@ -54,10 +46,7 @@ const ProfileSection = () => {
     console.log(index);
     if (index === 0) {
       router.push("/profile");
-    } else if (index === 1) { 
-      router.push("/apply");
-    }
-    else if (index === 2) {
+    } else if (index === 1) {
       router.push("/reviews");
     } else {
       const { data } = await logout(user.id);
@@ -71,7 +60,6 @@ const ProfileSection = () => {
       onClick={toggleMenu}
       className="relative flex cursor-pointer items-center gap-4"
     >
-      
       <div className="flex h-10 w-10 items-center justify-center rounded-full bg-yellow-100">
         {user.profile === "" ? (
           <div>

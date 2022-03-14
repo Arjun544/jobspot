@@ -11,7 +11,12 @@ export function useRefreshToken() {
         const { data } = await axios.get(`http://localhost:3000/api/auth/refresh`, {
           withCredentials: true,
         });
-        dispatch(setAuth(data));
+        dispatch(
+          setAuth({
+            auth: data.auth,
+            user: data.user,
+          })
+        );
         setLoading(false);
       } catch (err) {
         console.log(err);

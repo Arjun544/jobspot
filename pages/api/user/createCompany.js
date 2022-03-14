@@ -13,19 +13,33 @@ export default nextConnect({
 })
   // .use(upload.single("cv"))
   .post(async (req, res) => {
-    const { email, company } = req.body;
+    const { user, company } = req.body;
 
     // Upload image to cloudinary
     // const result = await cloudinary.uploader.upload(image);
-    await prisma.company.create({
+    const newCompany = await prisma.company.create({
       data: {
         ...company,
-      }
+        user: {
+          connect: {
+            id: user.id
+          }
+        },
+      },
+    });
+
+    await prisma.user.update({
+      where: {
+        email: user.email,
+      },
+      data: {
+        companyId: newCompany.id,
+      },
     });
 
     return res.json({
       success: true,
-      message: "User company updated successfully",
+      message: "User company created successfully",
     });
   });
 

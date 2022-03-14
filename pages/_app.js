@@ -15,6 +15,7 @@ function MyApp({ Component, pageProps }) {
         icon={false}
         closeButton={false}
       />
+      
       <Component {...pageProps} />
     </Provider>
   );

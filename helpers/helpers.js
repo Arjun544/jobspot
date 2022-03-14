@@ -34,7 +34,7 @@ export const storeRefreshToken = async (token, userId) => {
     await prisma.token.create({
       data: {
         token,
-        userId,
+        user: { connect: { id: userId } },
       },
     });
   } catch (err) {

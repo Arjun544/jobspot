@@ -10,10 +10,12 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import GoogleLogin from "react-google-login";
 import { toast } from "react-toastify";
+import { ScaleLoader } from "react-spinners";
 
 const Login = () => {
   const dispatch = useDispatch();
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   const [isPassHidden, setIspasshidden] = useState(true);
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
@@ -21,7 +23,9 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
+      setIsLoading(true);
       const { data } = await login(email, pass);
+      setIsLoading(false);
       if (data.success === false) {
         return toast.error(data.message);
       }
@@ -33,11 +37,15 @@ const Login = () => {
             user: data.user,
           })
         );
-        router.push("/addDetails", { query: true });
+        
+        data.user.companyId === null
+          ? router.push("/addDetails", { query: true })
+          : router.push("/");
         setEmail("");
         setPass("");
       }
     } catch (error) {
+      setIsLoading(false);
       console.log(error);
       return toast.error(error.message);
     }
@@ -120,12 +128,18 @@ const Login = () => {
               </div>
             )}
           </div>
-          <button
-            type="submit"
-            className="mt-6 rounded-xl bg-sky-500 px-16 py-2 font-semibold tracking-wider hover:bg-sky-600"
-          >
-            Log in
-          </button>
+          {isLoading ? (
+            <div className="mt-6 flex items-center justify-center">
+              <ScaleLoader color="#00BFFF" loading={isLoading} />
+            </div>
+          ) : (
+            <button
+              type="submit"
+              className="mt-6 rounded-xl bg-sky-500 px-16 py-2 font-semibold tracking-wider hover:bg-sky-600"
+            >
+              Log in
+            </button>
+          )}
         </form>
         {/* Social logins */}
         <div className="flex items-center justify-center gap-4">
@@ -159,7 +173,9 @@ const Login = () => {
                       user: data.user,
                     })
                   );
-                  router.push("/addDetails", { query: true });
+                  data.user.companyId === null
+                    ? router.push("/addDetails", { query: true })
+                    : router.push("/");
                 }
               } catch (error) {
                 console.log(error);

@@ -10,7 +10,7 @@ import {
 export default async function handler(req, res) {
   if (req.method === "GET") {
     // get refresh token from cookie
-    const { refreshToken: refreshTokenFromCookie } = getCookies({req,res});
+    const { refreshToken: refreshTokenFromCookie } = getCookies({ req, res });
     // check if token is valid
     let userData;
     try {
@@ -71,6 +71,7 @@ export default async function handler(req, res) {
         email: user.email,
         profile: user.profile,
         type: user.type,
+        companyId: user.companyId,
       },
       isAuth: true,
     });

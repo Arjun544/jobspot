@@ -6,7 +6,7 @@ import ApplyAs from "../components/ApplyAs";
 import { useRefreshToken } from "../helpers/useRefreshToken";
 import { toast } from "react-toastify";
 import ScaleLoader from "react-spinners/ScaleLoader";
-import { updateCompany, updateUser } from "../services/user_services";
+import { createCompany, updateUser } from "../services/user_services";
 import { useSelector } from "react-redux";
 
 const Apply = () => {
@@ -14,7 +14,7 @@ const Apply = () => {
   const { user } = useSelector((state) => state.auth);
   const [isLoading, setIsLoading] = useState(false);
   const [currentTab, setCurrentTab] = useState(1);
-  const [currentStepIndex, setCurrentStepIndex] = useState(1);
+  const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [details, setDetails] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [cv, setCv] = useState("");
@@ -85,7 +85,7 @@ const Apply = () => {
             details: companyDetails,
             // image: JSON.stringify(companyImage[0].getFileEncodeDataURL()),
           };
-          await updateCompany(user.email, company);
+          await createCompany(user, company);
           setIsLoading(false);
           router.push("/");
         } catch (error) {
@@ -161,7 +161,7 @@ const Apply = () => {
             <ScaleLoader color="#00BFFF" loading={isLoading} />
           </div>
         ) : (
-          <div className="flex items-center justify-center bg-red-500 gap-4 pb-8">
+          <div className="flex items-center justify-center gap-4 pb-8">
             <button
               onClick={handlePrevClick}
               className="rounded-lg bg-slate-400 py-2 px-4 text-sm tracking-wider text-white hover:bg-slate-500"

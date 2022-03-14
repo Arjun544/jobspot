@@ -10,10 +10,12 @@ import { useDispatch } from "react-redux";
 import { setAuth } from "../redux/reducers/authSlice";
 import { toast } from "react-toastify";
 import GoogleLogin from "react-google-login";
+import { ScaleLoader } from "react-spinners";
 
 const Register = () => {
   const router = useRouter();
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
   const [isPassHidden, setIspasshidden] = useState(true);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -26,7 +28,9 @@ const Register = () => {
       toast.warn("Confirm Password does not match");
     } else {
       try {
+        setIsLoading(true);
         const { data } = await register(name, email, pass);
+        setIsLoading(false);
         if (data.success === false) {
           return toast.error(data.message);
         }
@@ -45,6 +49,7 @@ const Register = () => {
           setConfirmpass("");
         }
       } catch (error) {
+        setIsLoading(false);
         console.log(error);
         return toast.error(error.message);
       }
@@ -144,12 +149,18 @@ const Register = () => {
             className="w-1/2 rounded-xl bg-white py-4 pl-4"
             onChange={(e) => setConfirmpass(e.target.value)}
           />
-          <button
-            type="submit"
-            className="mt-6 rounded-xl bg-sky-500 px-16 py-2 font-semibold tracking-wider hover:bg-sky-600"
-          >
-            Get Started
-          </button>
+          {isLoading ? (
+            <div className="mt-6 flex items-center justify-center">
+              <ScaleLoader color="#00BFFF" loading={isLoading} />
+            </div>
+          ) : (
+            <button
+              type="submit"
+              className="mt-6 rounded-xl bg-sky-500 px-16 py-2 font-semibold tracking-wider hover:bg-sky-600"
+            >
+              Get Started
+            </button>
+          )}
         </form>
         {/* Social logins */}
         <div className="flex items-center justify-center gap-4">
@@ -174,7 +185,7 @@ const Register = () => {
                 const { data } = await gmailSignup(
                   response.profileObj.name,
                   response.profileObj.email,
-                  response.profileObj.imageUrl,
+                  response.profileObj.imageUrl
                 );
                 if (data.success === false) {
                   return toast.error(data.message);

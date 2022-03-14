@@ -69,6 +69,7 @@ export default async function handler(req, res) {
           email: user.email,
           profile: user.profile,
           type: user.type,
+          companyId: user.companyId,
         },
         isAuth: true,
       });

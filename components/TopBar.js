@@ -3,16 +3,11 @@ import React from "react";
 import ProfileSection from "./ProfileSection";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 const TopBar = () => {
-  const { isAuth, user } = useSelector((state) => state.auth);
-
-  const handleAddJob = (e) => {
-    e.preventDefault();
-    if (user.type === "employee") {
-      toast.warn("Apply as a recruiter in profile to add a post");
-    }
-  };
+  const router = useRouter();
+  const { isAuth } = useSelector((state) => state.auth);
 
   return (
     <div className="flex h-16 w-full items-center justify-between bg-white px-10 shadow">
@@ -46,7 +41,7 @@ const TopBar = () => {
         <div className="flex items-center gap-3">
           {/* Post job */}
           <button
-            onClick={(e) => handleAddJob(e)}
+            onClick={(e) => router.push("/postJob")}
             className="rounded-lg px-4 py-2 text-sm font-semibold tracking-wider text-green-500 hover:bg-slate-100"
           >
             Post a Job
