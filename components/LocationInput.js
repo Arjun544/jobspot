@@ -3,7 +3,7 @@ import { TiLocation } from "react-icons/ti";
 import { useOnClickOutside } from "usehooks-ts";
 import { getCities } from "../services/general_services";
 
-const LocationInput = ({ selectedCity, setSelectedCity, height }) => {
+const LocationInput = ({ selectedCity, setSelectedCity, height, width }) => {
   const [query, setQuery] = useState("");
   const [cities, setCities] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -38,7 +38,7 @@ const LocationInput = ({ selectedCity, setSelectedCity, height }) => {
     <div
       ref={ref}
       onClick={() => setIsOpen(true)}
-      className={`relative flex h-${height} w-1/3 items-center gap-4 rounded-xl bg-slate-200 pl-4 shadow`}
+      className={`relative flex h-${height} w-${width} items-center gap-4 rounded-xl bg-slate-200 pl-4 shadow`}
     >
       <TiLocation className="fill-slate-500" fontSize={22} />
       <span
@@ -49,7 +49,7 @@ const LocationInput = ({ selectedCity, setSelectedCity, height }) => {
         {selectedCity === "" ? "Work location" : selectedCity}
       </span>
       {isOpen && (
-        <div className="absolute z-50 left-0 top-16 flex w-full flex-col overflow-hidden rounded-xl bg-slate-200 fill-red-400 shadow">
+        <div className="absolute left-0 top-[70px] z-50 flex w-full flex-col overflow-hidden rounded-xl bg-slate-200 fill-red-400 shadow">
           <input
             value={query}
             type="text"

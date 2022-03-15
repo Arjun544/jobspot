@@ -4,12 +4,12 @@ import { useSelector } from "react-redux";
 import { RiSearch2Fill } from "react-icons/ri";
 
 const SearchSection = () => {
-  const { isAuth } = useSelector((state) => state.auth);
+  const { isAuth, user } = useSelector((state) => state.auth);
   const [salary, setSalary] = useState(50000);
-  const [selectedCity, setSelectedCity] = useState('');
+  const [selectedCity, setSelectedCity] = useState(isAuth ? user.city : "");
 
   return (
-    <div className="mt-1 flex h-20 w-full items-center justify-between gap-6 bg-white py-3 px-10 shadow">
+    <div className="mt-1 flex h-20 w-full items-center justify-between gap-6 bg-white py-3 px-16 shadow">
       {/* Searchbar */}
       <div className="flex h-full w-1/2 items-center gap-4 rounded-xl bg-slate-200 pl-4 shadow">
         <RiSearch2Fill className="fill-slate-500" fontSize={22} />
@@ -22,7 +22,8 @@ const SearchSection = () => {
       <LocationInput
         selectedCity={selectedCity}
         setSelectedCity={setSelectedCity}
-        height='full' 
+        height="full"
+        width={"1/2"}
       />
       <div className="flex w-52 flex-col gap-4">
         <div className="flex items-center justify-between">

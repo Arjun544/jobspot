@@ -9,9 +9,7 @@ const api = axios.create({
   },
 });
 
-export const getAllJobs = async () => await api.get("/job/get");
-
-export const createJob = async (applyingAs, user, job, companyId) =>
-  await api.post("/job/create", { applyingAs, user, job, companyId });
+export const createCompany = async (user, company) =>
+  await api.post("/user/create", { user, company });
 
 export default api;

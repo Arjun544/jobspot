@@ -6,7 +6,8 @@ import ApplyAs from "../components/ApplyAs";
 import { useRefreshToken } from "../helpers/useRefreshToken";
 import { toast } from "react-toastify";
 import ScaleLoader from "react-spinners/ScaleLoader";
-import { createCompany, updateUser } from "../services/user_services";
+import {updateUser } from "../services/user_services";
+import { createCompany } from "../services/company_services";
 import { useSelector } from "react-redux";
 
 const Apply = () => {

@@ -105,6 +105,7 @@ const ApplyAs = ({
             selectedCity={companyCity}
             setSelectedCity={setCompanyCity}
             height="16"
+            width={'full'}
           />
           <textarea
             value={companyDetails}

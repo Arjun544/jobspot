@@ -15,6 +15,9 @@ export default async function handler(req, res) {
         where: {
           email,
         },
+        select: {
+          email: true,
+        },
       });
 
       if (hasUser) {
@@ -69,6 +72,7 @@ export default async function handler(req, res) {
           email: user.email,
           profile: user.profile,
           type: user.type,
+          city: user.city,
           companyId: user.companyId,
         },
         isAuth: true,

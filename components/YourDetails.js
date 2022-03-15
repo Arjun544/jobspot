@@ -41,6 +41,7 @@ const YourDetails = ({
           selectedCity={selectedCity}
           setSelectedCity={setSelectedCity}
           height="16"
+          width={'full'}
         />
         <div className="w-full mt-6">
           <FilePond

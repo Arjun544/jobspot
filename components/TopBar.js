@@ -10,7 +10,7 @@ const TopBar = () => {
   const { isAuth } = useSelector((state) => state.auth);
 
   return (
-    <div className="flex h-16 w-full items-center justify-between bg-white px-10 shadow">
+    <div className="flex h-16 w-full items-center justify-between bg-white px-16 shadow">
       <div className="flex items-center">
         <span className="text-xl font-semibold tracking-wider text-black">
           Job
@@ -21,20 +21,34 @@ const TopBar = () => {
       </div>
       {/* Links */}
       <div className="flex items-center gap-4">
-        <Link href="" passHref>
-          <span className="cursor-pointer rounded-xl py-2 px-4 text-sm font-semibold tracking-wider hover:bg-slate-200">
+        <Link href="/" passHref>
+          <span
+            className={`cursor-pointer rounded-xl py-2 px-4 ${
+              router.pathname === "/" ? "text-sky-500" : "text-black"
+            } text-sm font-semibold tracking-wider hover:bg-slate-200`}
+          >
             Home
           </span>
         </Link>
-        <Link href="" passHref>
-          <span className="cursor-pointer rounded-xl py-2 px-4 text-sm font-semibold tracking-wider hover:bg-slate-200">
+        <Link href="/companies" passHref>
+          <span
+            className={`cursor-pointer rounded-xl py-2 ${
+              router.pathname === "/companies" ? "text-sky-500" : "text-black"
+            } px-4 text-sm font-semibold tracking-wider hover:bg-slate-200`}
+          >
             Companies
           </span>
         </Link>
         {isAuth && (
-          <span className="cursor-pointer rounded-xl py-2 px-4 text-sm font-semibold tracking-wider hover:bg-slate-200">
-            My Jobs
-          </span>
+          <Link href="/myjobs" passHref>
+            <span
+              className={`cursor-pointer rounded-xl py-2 px-4 ${
+                router.pathname === "/myjobs" ? "text-sky-500" : "text-black"
+              } text-sm font-semibold tracking-wider hover:bg-slate-200`}
+            >
+              My Jobs
+            </span>
+          </Link>
         )}
       </div>
       {isAuth ? (

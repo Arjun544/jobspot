@@ -21,6 +21,15 @@ export default async function handler(req, res) {
         where: {
           email,
         },
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          profile: true,
+          type: true,
+          city: true,
+          companyId: true,
+        },
       });
       if (!user) {
         return res.json({
@@ -68,6 +77,7 @@ export default async function handler(req, res) {
           email: user.email,
           profile: user.profile,
           type: user.type,
+          city: user.city,
           companyId: user.companyId,
         },
         isAuth: true,

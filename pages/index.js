@@ -2,11 +2,11 @@ import Head from "next/head";
 import TopBar from "../components/TopBar";
 import SearchSection from "../components/SearchSection";
 import { useRefreshToken } from "../helpers/useRefreshToken";
-import { useState } from "react";
 import { getAllJobs } from "../services/job_services";
-import AllJobsSection from "../components/AllJobsSection";
+import Filters from "../components/Filters";
+import RecommendedJobs from "../components/RecommendedJobs";
 
- function Home() {
+function Home({jobs}) {
   // call refresh endpoint
   const { loading } = useRefreshToken();
 
@@ -27,24 +27,28 @@ import AllJobsSection from "../components/AllJobsSection";
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="h-screen w-screen bg-white">
+      <main className="bg-slate-100">
         <TopBar />
         <SearchSection />
-        <AllJobsSection />
+
+        <div className="flex px-16 pt-8">
+          {/* filters */}
+          <Filters jobs={jobs} />
+          <RecommendedJobs jobs={jobs} />
+        </div>
       </main>
     </div>
   );
- }
+}
 
-// export async function getStaticProps() { 
-//   const res = await fetch('https://fakestoreapi.com/products');
-//   const data = await res.json();
-//   console.log(data);
-//   return {
-//     props: {
+export async function getServerSideProps(context) {
+  const { data } = await getAllJobs();
 
-//     },
-//   };
-// }
+  return {
+    props: {
+      jobs: data.jobs,
+    },
+  };
+}
 
 export default Home;
