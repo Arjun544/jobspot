@@ -1,6 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  build: {
+    extend(config, {}) {
+      config.node = {
+        fs: "empty",
+      };
+    },
+  },
   images: {
     domains: ["lh3.googleusercontent.com"],
   },
@@ -15,4 +22,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig
+module.exports = nextConfig;

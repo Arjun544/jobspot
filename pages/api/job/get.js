@@ -9,19 +9,23 @@ export default nextConnect({
   onNoMatch: (req, res) => {
     res.status(404).end(`${req.method} not allowed`);
   },
-})
-  .get(async (req, res) => {
-    try {
-      const jobs = await prisma.job.findMany();
-      return res.status(200).json({
-        success: true,
-        jobs,
-      });
-    } catch (error) {
-      console.log(error);
-      return res.json({
-        success: false,
-        message: err.message,
-      });
-    }
-  });
+}).get(async (req, res) => {
+  try {
+    const jobs = await prisma.job.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: { reviews: true, applicants: true, company: true },
+    });
+    return res.status(200).json({
+      success: true,
+      jobs,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.json({
+      success: false,
+      message: err.message,
+    });
+  }
+});

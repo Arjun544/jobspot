@@ -75,22 +75,3 @@ export const removeToken = async (id, refreshToken) => {
     },
   });
 };
-
-export const filterRecommendedJobs = (jobs) => {
-  const recommendedKeys = [
-    "software",
-    "web",
-    "mobile",
-    "design",
-    "IT",
-    "developer",
-  ];
-  // Returns the jobs where job industry contains any recommended key
-
-  const recommendedJobs = jobs.filter((job) =>
-    recommendedKeys
-      .map((key) => job.industry.toLowerCase().includes(key.toLowerCase()))
-      .includes(true)
-  );
-  return recommendedJobs;
-};

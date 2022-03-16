@@ -1,10 +1,8 @@
-import React from "react";
-
 import { useRef, useState } from "react";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { useOnClickOutside } from "usehooks-ts";
 
-const SortBy = ({ hint, items, selectedItem, setSelectedItem }) => {
+const SortBy = ({ items, selectedItem, setSelectedItem }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const ref = useRef();
@@ -29,7 +27,7 @@ const SortBy = ({ hint, items, selectedItem, setSelectedItem }) => {
       className={`relative mb-3 flex h-10 w-28 md:w-44 cursor-pointer items-center justify-between rounded-xl border-none bg-slate-200 px-4 shadow-sm hover:bg-slate-100 md:mb-0`}
     >
       <span className="text-xs tracking-wider text-slate-500">
-        {Object.keys(selectedItem).length === 0 ? hint : selectedItem}
+        {Object.keys(selectedItem).length === 0 ? 'Newest' : selectedItem}
       </span>
 
       <RiArrowDropDownLine
