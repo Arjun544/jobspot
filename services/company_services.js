@@ -10,6 +10,6 @@ const api = axios.create({
 });
 
 export const createCompany = async (user, company) =>
-  await api.post("/user/create", { user, company });
+  await api.post("/company/create", { user, company });
 
 export default api;

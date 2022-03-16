@@ -38,7 +38,7 @@ const LocationInput = ({ selectedCity, setSelectedCity, height, width }) => {
     <div
       ref={ref}
       onClick={() => setIsOpen(true)}
-      className={`relative flex h-${height} w-${width} items-center gap-4 rounded-xl bg-slate-200 pl-4 shadow`}
+      className={`relative flex ${height} ${width} items-center gap-4 rounded-xl bg-slate-200 pl-4 shadow`}
     >
       <TiLocation className="fill-slate-500" fontSize={22} />
       <span

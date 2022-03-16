@@ -13,7 +13,7 @@ export default nextConnect({
   .get(async (req, res) => {
     try {
       const jobs = await prisma.job.findMany();
-      return res.status(200).send({
+      return res.status(200).json({
         success: true,
         jobs,
       });

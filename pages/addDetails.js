@@ -21,7 +21,7 @@ const Apply = () => {
   const [cv, setCv] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [companyWebsite, setCompanyWebsite] = useState("");
-  const [companySize, setCompanySize] = useState(1);
+  const [companySize, setCompanySize] = useState(0);
   const [companyIndustry, setCompanyIndustry] = useState("");
   const [companyCity, setCompanyCity] = useState("");
   const [companyImage, setCompanyImage] = useState("");
@@ -36,6 +36,7 @@ const Apply = () => {
   }, [hasPrevPage, router]);
 
   const handleNextClick = async (e) => {
+    e.stopPropagation();
     e.preventDefault();
     if (currentStepIndex < stepNames.length - 1) {
       if (details.length === 0 || selectedCity === "" || cv.length < 1) {
@@ -47,7 +48,7 @@ const Apply = () => {
             email: user.email,
             details,
             city: selectedCity,
-            // cv: JSON.stringify(cv[0].getFileEncodeDataURL()),
+            // cv: cv[0].getFileEncodeDataURL(),
           };
           await updateUser(data);
           setIsLoading(false);
@@ -79,12 +80,12 @@ const Apply = () => {
           const company = {
             name: companyName,
             website: companyWebsite,
-            size: companySize,
+            size: Number(companySize),
             industry: companyIndustry,
             city: companyCity,
             image: '',
             details: companyDetails,
-            // image: JSON.stringify(companyImage[0].getFileEncodeDataURL()),
+            image: JSON.stringify(companyImage[0].getFileEncodeDataURL()),
           };
           await createCompany(user, company);
           setIsLoading(false);
@@ -98,7 +99,9 @@ const Apply = () => {
     }
   };
 
-  const handlePrevClick = () => {
+  const handlePrevClick = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
     if (currentStepIndex > 0) {
       const previewStepIndex = currentStepIndex - 1;
       setCurrentStepIndex(previewStepIndex);
@@ -119,8 +122,8 @@ const Apply = () => {
   }
 
   return (
-    <div className="flex h-screen w-screen flex-col bg-white px-20 py-6">
-      <span className="font-semibold tracking-wider text-black">
+    <div className="flex h-full w-full flex-col bg-white px-10 md:px-20 py-6">
+      <span className="font-semibold text-center tracking-wider mb-6 text-black">
         Let us know more about you
       </span>
       <div className="rainbow-m-bottom_large rainbow-m-top_xx-large rainbow-p-bottom_large mt-6">
@@ -158,19 +161,19 @@ const Apply = () => {
           />
         )}
         {isLoading ? (
-          <div className="flex items-center justify-center pb-8">
+          <div className="flex items-center justify-center pt-8">
             <ScaleLoader color="#00BFFF" loading={isLoading} />
           </div>
         ) : (
-          <div className="flex items-center justify-center gap-4 pb-8">
+          <div className="flex items-center justify-center gap-4 py-8">
             <button
-              onClick={handlePrevClick}
+              onClick={(e) =>handlePrevClick(e)}
               className="rounded-lg bg-slate-400 py-2 px-4 text-sm tracking-wider text-white hover:bg-slate-500"
             >
               Previous
             </button>
             <button
-              onClick={handleNextClick}
+              onClick={(e) => handleNextClick(e)}
               className="rounded-lg bg-green-400 py-2 px-7 text-sm tracking-wider text-white hover:bg-green-500"
             >
               {currentStepIndex === 0 ? "Next" : "Save"}

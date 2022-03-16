@@ -14,7 +14,7 @@ export default nextConnect({
   // .use(upload.single("cv"))
   .post(async (req, res) => {
     const { user } = req.body;
-
+  
     // Upload image to cloudinary
     // const result = await cloudinary.uploader.upload(image);
     await prisma.user.updateMany({

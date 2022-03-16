@@ -4,7 +4,7 @@ const CustomCheckbox = ({ text }) => {
   const [value, setValue] = useState(false);
 
   return (
-    <div className="flex items-center gap-4">
+    <div className="flex items-center gap-2 md:gap-4">
       <input
         type="checkbox"
         className="rounded-md border-slate-300 text-sky-400 outline-none"

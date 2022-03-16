@@ -6,24 +6,11 @@ import { getAllJobs } from "../services/job_services";
 import Filters from "../components/Filters";
 import RecommendedJobs from "../components/RecommendedJobs";
 import { useRouter } from "next/router";
-import { useSelector } from "react-redux";
-import { filterRecommendedJobs } from "../helpers/helpers";
-import { useCallback } from "react";
 
-function Home({ jobs }) {
+function Jobs({ jobs }) {
   // call refresh endpoint
   const { loading } = useRefreshToken();
-  const { isAuth, user } = useSelector((state) => state.auth);
-
-  // const recommendedJobs = useCallback(() => {
-  //   return filterRecommendedJobs(jobs);
-  // }, [jobs]);
-
-  // // Returns the jobs where job location is same as current user location
-  // const locationBasedJobs = useCallback(() => {
-  //   return isAuth && jobs.filter((job) => job.location === user.city);
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [jobs, isAuth]);
+  const router = useRouter();
 
   if (loading) {
     return (
@@ -49,9 +36,7 @@ function Home({ jobs }) {
         <div className="flex px-6 pt-80 md:px-16 md:pt-44">
           {/* filters */}
           <Filters jobs={jobs} />
-          <RecommendedJobs
-            jobs={isAuth ? locationBasedJobs : recommendedJobs}
-          />
+          <div className="flex">All jobs</div>
         </div>
       </main>
     </div>
@@ -68,4 +53,4 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default Home;
+export default Jobs;

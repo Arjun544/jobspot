@@ -9,9 +9,9 @@ const SearchSection = () => {
   const [selectedCity, setSelectedCity] = useState(isAuth ? user.city : "");
 
   return (
-    <div className="mt-1 flex h-20 w-full items-center justify-between gap-6 bg-white py-3 px-16 shadow">
+    <div className="fixed top-16 z-40 mt-1 flex h-1/3 w-full flex-col items-center justify-between gap-6 bg-white py-3 px-6 shadow md:flex md:h-20 md:flex-row md:px-16">
       {/* Searchbar */}
-      <div className="flex h-full w-1/2 items-center gap-4 rounded-xl bg-slate-200 pl-4 shadow">
+      <div className="flex h-16 w-full items-center gap-4 rounded-xl bg-slate-200 pl-4 shadow md:h-full md:w-1/2">
         <RiSearch2Fill className="fill-slate-500" fontSize={22} />
         <input
           type="text"
@@ -22,10 +22,10 @@ const SearchSection = () => {
       <LocationInput
         selectedCity={selectedCity}
         setSelectedCity={setSelectedCity}
-        height="full"
-        width={"1/2"}
+        height="h-16 md:h-full"
+        width={"w-full md:w-1/2"}
       />
-      <div className="flex w-52 flex-col gap-4">
+      <div className="mb-3 flex w-52 flex-col gap-4 md:mb-0">
         <div className="flex items-center justify-between">
           <span className="text-xs font-semibold">The salary</span>
           <span className="text-xs font-semibold">$ 0 - $ {salary}</span>

@@ -34,14 +34,14 @@ const YourDetails = ({
         placeholder="Your details"
         required
         onChange={(e) => setDetails(e.target.value)}
-        className="mb-6 rounded-xl bg-slate-200 p-4 outline-none"
+        className="mb-6 rounded-xl border-0 bg-slate-200 p-4 outline-none"
       ></textarea>
       <div className="flex flex-col items-center justify-between">
         <LocationInput
           selectedCity={selectedCity}
           setSelectedCity={setSelectedCity}
-          height="16"
-          width={'full'}
+          height="h-16"
+          width={'w-full'}
         />
         <div className="w-full mt-6">
           <FilePond

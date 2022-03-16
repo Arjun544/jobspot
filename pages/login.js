@@ -37,7 +37,7 @@ const Login = () => {
             user: data.user,
           })
         );
-        
+
         data.user.companyId === null
           ? router.push("/addDetails", { query: true })
           : router.push("/");
@@ -54,7 +54,7 @@ const Login = () => {
   return (
     <div className="flex h-screen w-screen flex-grow">
       {/* Left Container Starts */}
-      <div className="flex w-2/5 flex-col items-center justify-evenly bg-white">
+      <div className="hidden w-2/5 flex-col items-center justify-evenly bg-white lg:flex">
         <div className="flex items-center gap-1">
           <span className="text-3xl font-semibold">Get Your</span>
           <span className="text-3xl font-semibold text-sky-500">Dream Job</span>
@@ -95,17 +95,17 @@ const Login = () => {
             type="email"
             placeholder="Enter your email"
             required
-            className="w-1/2 rounded-xl bg-white py-4 pl-4"
+            className="w-3/4 rounded-xl border-0 bg-white py-4 pl-4 md:w-1/2"
             onChange={(e) => setEmail(e.target.value)}
           />
-          <div className="flex w-1/2 items-center">
+          <div className="flex w-3/4 items-center md:w-1/2">
             <input
               value={pass}
               type={isPassHidden ? "password" : "text"}
               placeholder="Enter your password"
               required
               minLength={6}
-              className={`w-full bg-white py-4 pl-4 ${
+              className={`w-full border-0 bg-white py-4 pl-4 ${
                 pass ? "rounded-l-xl" : "rounded-xl"
               } `}
               onChange={(e) => setPass(e.target.value)}

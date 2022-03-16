@@ -1,10 +1,12 @@
 import React from "react";
 import CustomCheckbox from "./CustomCheckbox";
 
-const Filters = ({jobs}) => {
+const Filters = ({ jobs }) => {
   return (
-    <div className="flex flex-col gap-10 bg-slate-100 mt-2">
-      <span className="font-semibold tracking-wider">Filters</span>
+    <div className="mt-2 flex flex-col gap-10 bg-slate-100">
+      <span className="text-sm font-semibold tracking-wider md:text-base">
+        Filters
+      </span>
       {/* Schedule */}
       <div className="flex flex-col gap-3">
         <span className="mb-2 text-xs font-semibold tracking-wider text-slate-400">

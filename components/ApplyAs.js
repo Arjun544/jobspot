@@ -26,7 +26,8 @@ const ApplyAs = ({
   setCompanySize,
   companyIndustry,
   setCompanyIndustry,
-  companyCity, setCompanyCity,
+  companyCity,
+  setCompanyCity,
   companyDetails,
   setCompanyDetails,
 }) => {
@@ -57,7 +58,7 @@ const ApplyAs = ({
       </div>
       {currentTab === 2 && (
         <div className="flex flex-col gap-4">
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col items-center gap-4 md:flex md:flex-row">
             <input
               value={companyName}
               type="text"
@@ -79,7 +80,7 @@ const ApplyAs = ({
               className="h-16 w-full rounded-xl border-0 bg-slate-200 px-4 text-sm text-black outline-none placeholder:text-sm placeholder:text-slate-400"
             ></input>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col items-center gap-4 md:flex md:flex-row">
             <input
               value={companySize}
               type="number"
@@ -104,8 +105,8 @@ const ApplyAs = ({
           <LocationInput
             selectedCity={companyCity}
             setSelectedCity={setCompanyCity}
-            height="16"
-            width={'full'}
+            height="h-16"
+            width={"w-full"}
           />
           <textarea
             value={companyDetails}
@@ -115,12 +116,12 @@ const ApplyAs = ({
             rows="5"
             draggable={false}
             style={{ resize: "none" }}
-            placeholder="Your details"
+            placeholder="Company details"
             required
             onChange={(e) => setCompanyDetails(e.target.value)}
-            className="mb-6 rounded-xl bg-slate-200 p-4 outline-none"
+            className="mb-6 rounded-xl border-0 bg-slate-200 p-4 outline-none"
           ></textarea>
-          <div className="mt-3 w-full">
+          <div className="w-full">
             <FilePond
               files={companyImage}
               allowReorder={false}

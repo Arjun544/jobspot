@@ -84,7 +84,7 @@ const ProfileSection = () => {
           ></Image>
         )}
       </div>
-      <div className="flex flex-col">
+      <div className="hidden md:flex flex-col">
         <span className="text-sm font-semibold capitalize">{user.name}</span>
         <span className="text-xs text-slate-400">
           Looking for {user.type === "employee" ? "job" : "employer"}
