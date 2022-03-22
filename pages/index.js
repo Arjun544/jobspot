@@ -13,32 +13,7 @@ export const AppContext = createContext(null);
 function Home({ jobs }) {
   // call refresh endpoint
   const { loading } = useRefreshToken();
-  const { isAuth, user } = useSelector((state) => state.auth);
   const [filteredJobs, setFilteredJobs] = useState([]);
-
-  // Returns the jobs where job industry contains any recommended key
-  const recommendedJobs = useMemo(() => {
-    const recommendedKeys = [
-      "software",
-      "web",
-      "mobile",
-      "design",
-      "IT",
-      "developer",
-    ];
-    const recommendedJobs = jobs.filter((job) =>
-      recommendedKeys
-        .map((key) => job.industry.toLowerCase().includes(key.toLowerCase()))
-        .includes(true)
-    );
-    return recommendedJobs;
-  }, [jobs]);
-
-  // Returns the jobs where job location is same as current user location
-  const locationBasedJobs = useMemo(() => {
-    return isAuth && jobs.filter((job) => job.location === user.city);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [jobs, isAuth]);
 
   if (loading) {
     return (
@@ -57,13 +32,13 @@ function Home({ jobs }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="bg-slate-100 ">
+      <main className="bg-slate-50 ">
         <TopBar />
         <SearchSection />
 
-        <div className="flex px-6 pt-80 md:px-16 md:pt-44">
+        <div className="flex px-6 pt-80 md:px-16 md:pt-40">
           {/* filters */}
-          <Filters jobs={isAuth ? locationBasedJobs : recommendedJobs} />
+          <Filters jobs={jobs} />
           <RecommendedJobs />
         </div>
       </main>

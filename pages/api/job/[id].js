@@ -11,13 +11,17 @@ export default nextConnect({
   },
 }).get(async (req, res) => {
   try {
-    const jobs = await prisma.job.findMany({
-      orderBy: {
-        createdAt: "desc",
+    const job = await prisma.job.findUnique({
+      where: {
+        id: +req.query.id, // Convert id to int
       },
       include: {
         createdBy: true,
-        reviews: true,
+        reviews: {
+          include: {
+            user: true
+          }
+        },
         applicants: true,
         saveBy: true,
         company: true,
@@ -25,7 +29,7 @@ export default nextConnect({
     });
     return res.status(200).json({
       success: true,
-      jobs,
+      job,
     });
   } catch (error) {
     console.log(error);

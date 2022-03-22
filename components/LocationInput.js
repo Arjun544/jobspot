@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { TiLocation } from "react-icons/ti";
 import { useOnClickOutside } from "usehooks-ts";
 import { getCities } from "../services/general_services";

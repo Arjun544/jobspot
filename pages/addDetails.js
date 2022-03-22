@@ -1,12 +1,11 @@
 import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
-import { ProgressIndicator, ProgressStep } from "react-rainbow-components";
 import YourDetails from "../components/YourDetails";
 import ApplyAs from "../components/ApplyAs";
 import { useRefreshToken } from "../helpers/useRefreshToken";
 import { toast } from "react-toastify";
 import ScaleLoader from "react-spinners/ScaleLoader";
-import {updateUser } from "../services/user_services";
+import { updateUser } from "../services/user_services";
 import { createCompany } from "../services/company_services";
 import { useSelector } from "react-redux";
 
@@ -83,7 +82,7 @@ const Apply = () => {
             size: Number(companySize),
             industry: companyIndustry,
             city: companyCity,
-            image: '',
+            image: "",
             details: companyDetails,
             image: JSON.stringify(companyImage[0].getFileEncodeDataURL()),
           };
@@ -122,15 +121,33 @@ const Apply = () => {
   }
 
   return (
-    <div className="flex h-full w-full flex-col bg-white px-10 md:px-20 py-6">
-      <span className="font-semibold text-center tracking-wider mb-6 text-black">
+    <div className="flex h-full w-full flex-col bg-white px-10 py-6 md:px-20">
+      <span className="mb-6 text-center font-semibold tracking-wider text-black">
         Let us know more about you
       </span>
-      <div className="rainbow-m-bottom_large rainbow-m-top_xx-large rainbow-p-bottom_large mt-6">
-        <ProgressIndicator currentStepName={stepNames[currentStepIndex]}>
-          <ProgressStep name="step-1" label="Your details" />
-          <ProgressStep name="step-2" label="Apply as" />
-        </ProgressIndicator>
+      <div className="mt-6 flex flex-col">
+        <div className="flex items-center justify-center gap-2">
+          <div
+            className={`h-5 w-5 rounded-full ${
+              currentStepIndex === 0
+                ? "border-2 border-black bg-green-400"
+                : "bg-sky-200"
+            } `}
+          ></div>
+          <div className="h-1 w-1/3 rounded-lg bg-sky-200"></div>
+          <div
+            className={`h-5 w-5 rounded-full ${
+              currentStepIndex === 1
+                ? "border-2 border-black bg-green-400"
+                : "bg-sky-200"
+            } `}
+          ></div>
+        </div>
+        <div className="mt-1 flex items-center justify-center px-10">
+          <span className="text-xs">Your details</span>
+          <div className="h-1 w-1/3 rounded-lg bg-transparent"></div>
+          <span className="text-xs">Apply as</span>
+        </div>
         {currentStepIndex === 0 ? (
           <YourDetails
             setDetails={setDetails}
@@ -167,7 +184,7 @@ const Apply = () => {
         ) : (
           <div className="flex items-center justify-center gap-4 py-8">
             <button
-              onClick={(e) =>handlePrevClick(e)}
+              onClick={(e) => handlePrevClick(e)}
               className="rounded-lg bg-slate-400 py-2 px-4 text-sm tracking-wider text-white hover:bg-slate-500"
             >
               Previous

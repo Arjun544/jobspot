@@ -9,23 +9,25 @@ export default nextConnect({
   onNoMatch: (req, res) => {
     res.status(404).end(`${req.method} not allowed`);
   },
-}).get(async (req, res) => {
+}).post(async (req, res) => {
+  const { jobId, userId } = req.body;
+
   try {
-    const jobs = await prisma.job.findMany({
-      orderBy: {
-        createdAt: "desc",
+    const job = await prisma.job.update({
+      where: {
+        id: jobId,
       },
-      include: {
-        createdBy: true,
-        reviews: true,
-        applicants: true,
-        saveBy: true,
-        company: true,
+      data: {
+        applicants: {
+          connect: {
+            id: userId,
+          },
+        },
       },
     });
     return res.status(200).json({
       success: true,
-      jobs,
+      job,
     });
   } catch (error) {
     console.log(error);

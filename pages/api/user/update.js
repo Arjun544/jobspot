@@ -17,7 +17,7 @@ export default nextConnect({
   
     // Upload image to cloudinary
     // const result = await cloudinary.uploader.upload(image);
-    await prisma.user.updateMany({
+    await prisma.user.update({
       where: {
         email: user.email,
       },
