@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import { useRefreshToken } from "../../helpers/useRefreshToken";
 import CommentDialogue from "../../components/CommentDialogue";
 import CommentSection from "../../components/CommentSection";
+import { HiOfficeBuilding } from "react-icons/hi";
 
 const JobDetails = ({ job }) => {
   // call refresh endpoint
@@ -122,11 +123,11 @@ const JobDetails = ({ job }) => {
                 <span className="text-ellipsis text-xs font-semibold capitalize tracking-wider text-purple-500 line-clamp-2">
                   Pkr {job.salary}
                 </span>
-                {/*Location */}
+                {/* Industry */}
                 <div className="flex items-center gap-2">
-                  <TiLocation className="fill-purple-500" />
-                  <span className="text-xs font-semibold tracking-wider text-slate-400">
-                    {job.location}
+                  <HiOfficeBuilding className="fill-purple-500" />
+                  <span className="text-xs font-semibold capitalize tracking-wider text-slate-400">
+                    {job.industry}
                   </span>
                 </div>
                 {/* Types */}
@@ -142,6 +143,14 @@ const JobDetails = ({ job }) => {
                     {job.level}
                   </div>
                 </div>
+                {/*Location */}
+                <div className="flex items-center gap-2">
+                  <TiLocation className="fill-purple-500" />
+                  <span className="text-xs font-semibold tracking-wider text-slate-400">
+                    {job.location}
+                  </span>
+                </div>
+                {/* Created At */}
                 <div className="flex items-center gap-2">
                   <AiFillClockCircle className="fill-purple-500" />
                   <span className="text-xs font-semibold capitalize tracking-wider text-slate-400">

@@ -1,11 +1,24 @@
 import React, { useContext, useMemo, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
-import { AppContext } from "../pages/index";
+import { AppContext } from "../pages/_app";
 import CustomCheckbox from "./CustomCheckbox";
+import CustomSort from "./CustomSort";
 
-const Filters = ({ jobs }) => {
+const sorts = [
+  "Newest",
+  "Oldest",
+  "By salary",
+  "By reviews",
+  "By applicants",
+  "Weekly",
+  "Monthly",
+];
+
+const Filters = ({ jobs, isAllJobs = false }) => {
   const { filteredJobs, setFilteredJobs } = useContext(AppContext);
   const { isAuth, user } = useSelector((state) => state.auth);
+  const [currentSort, setCurrentSort] = useState(null);
+  const [sortCheck, setSortCheck] = useState(0);
   const [schedules, setSchedules] = useState([]);
   const [types, setTypes] = useState([]);
   const [levels, setLevels] = useState([]);
@@ -22,17 +35,19 @@ const Filters = ({ jobs }) => {
       "program",
       "industry",
     ];
-    const data = isAuth
-      ? jobs.filter((job) => job.location === user.city)
-      : jobs.filter((job) =>
-          recommendedKeys
-            .map((key) =>
-              job.industry.toLowerCase().includes(key.toLowerCase())
-            )
-            .includes(true)
-        );
+    const data = !isAllJobs
+      ? isAuth
+        ? jobs.filter((job) => job.location === user.city)
+        : jobs.filter((job) =>
+            recommendedKeys
+              .map((key) =>
+                job.industry.toLowerCase().includes(key.toLowerCase())
+              )
+              .includes(true)
+          )
+      : jobs;
     return data;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuth, jobs]);
 
   // Returns the jobs where job type contains any schedule type
@@ -65,11 +80,38 @@ const Filters = ({ jobs }) => {
         .includes(true)
     );
     return newJobs;
-  }, [levels, recommendedJobs]);
+  }, [recommendedJobs, levels]);
 
-  schedules.length === 0 && types.length === 0 && levels.length === 0
-    ? setFilteredJobs(recommendedJobs)
-    : setFilteredJobs(...[schedulesJobs, typesJobs, levelsJobs]);
+  const sortedJobs = useMemo(() => {
+    let newJobs;
+    switch (currentSort) {
+      case "Newest":
+        newJobs = filteredJobs.sort((a, b) => a.createdAt - b.createdAt);
+      case "Oldest":
+        newJobs = filteredJobs.sort((a, b) => b.createdAt - a.createdAt);
+      case "By salary":
+        newJobs = filteredJobs.sort((a, b) => a.salary - b.salary);
+    }
+    return newJobs;
+  }, [currentSort, filteredJobs]);
+
+  if (
+    schedules.length === 0 &&
+    types.length === 0 &&
+    levels.length === 0 &&
+    currentSort === null
+  ) {
+    setFilteredJobs(recommendedJobs);
+  } else if (schedules.length !== 0) {
+    setFilteredJobs(schedulesJobs);
+  } else if (types.length !== 0) {
+    setFilteredJobs(typesJobs);
+  } else if (levels.length !== 0) {
+    setFilteredJobs(levelsJobs);
+  } else {
+    console.log(sortedJobs);
+    setFilteredJobs(sortedJobs);
+  }
 
   return (
     <div className="mt-2 flex flex-col gap-10 bg-slate-50">
@@ -81,41 +123,16 @@ const Filters = ({ jobs }) => {
         <span className="mb-2 text-xs font-semibold tracking-wider text-slate-400">
           Sort
         </span>
-        <CustomCheckbox
-          text={"Newest"}
-          states={schedules}
-          setStates={setSchedules}
-        />
-        <CustomCheckbox
-          text={"Oldest"}
-          states={schedules}
-          setStates={setSchedules}
-        />
-        <CustomCheckbox
-          text={"By salary"}
-          states={schedules}
-          setStates={setSchedules}
-        />
-        <CustomCheckbox
-          text={"By reviews"}
-          states={schedules}
-          setStates={setSchedules}
-        />
-        <CustomCheckbox
-          text={"By applicants"}
-          states={schedules}
-          setStates={setSchedules}
-        />
-        <CustomCheckbox
-          text={"Weekly"}
-          states={schedules}
-          setStates={setSchedules}
-        />
-        <CustomCheckbox
-          text={"Monthly"}
-          states={schedules}
-          setStates={setSchedules}
-        />
+        {sorts.map((sort, index) => (
+          <CustomSort
+            key={index}
+            index={index}
+            sort={sort}
+            sortCheck={sortCheck}
+            setSortCheck={setSortCheck}
+            setCurrentSort={setCurrentSort}
+          />
+        ))}
       </div>
       {/* Schedule */}
       <div className="flex flex-col gap-3">
@@ -166,7 +183,7 @@ const Filters = ({ jobs }) => {
         />
         <CustomCheckbox text={"Remote"} states={types} setStates={setTypes} />
         <CustomCheckbox
-          text={"Shift method"}
+          text={"Shift work"}
           states={types}
           setStates={setTypes}
         />
@@ -191,7 +208,11 @@ const Filters = ({ jobs }) => {
           states={levels}
           setStates={setLevels}
         />
-        <CustomCheckbox text={"Senior"} states={levels} setStates={setLevels} />
+        <CustomCheckbox
+          text={"Senior level"}
+          states={levels}
+          setStates={setLevels}
+        />
         <CustomCheckbox
           text={"Director level"}
           states={levels}

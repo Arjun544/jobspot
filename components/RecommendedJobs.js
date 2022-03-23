@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import JobGridCard from "./JobGridCard";
 import Lottie from "lottie-react";
 import empty from "../public/empty.json";
-import { AppContext } from "../pages";
+import { AppContext } from "../pages/_app";
 import { BsBookmark, BsFillBookmarkFill } from "react-icons/bs";
 import ViewType from "./ViewType";
 import JobListCard from "./JobListCard";
@@ -15,9 +15,10 @@ import { MdOutlineWork, MdEmail, MdGroup, MdReviews } from "react-icons/md";
 import { toast } from "react-toastify";
 import { applyJob, saveJob } from "../services/job_services";
 import { ScaleLoader } from "react-spinners";
+import { HiOfficeBuilding } from "react-icons/hi";
 
-const RecommendedJobs = () => {
-  const { filteredJobs, setFilteredJobs } = useContext(AppContext);
+const RecommendedJobs = ({ isAllJobs = false }) => {
+  const { filteredJobs } = useContext(AppContext);
   const { isAuth, user } = useSelector((state) => state.auth);
   const [viewType, setViewType] = useState("grid");
   const [selectedListJob, setSelectedListJob] = useState(0);
@@ -76,7 +77,7 @@ const RecommendedJobs = () => {
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-2 pb-3 md:pb-0">
           <span className="text-sm font-semibold tracking-wider md:text-base">
-            {isAuth ? "Jobs in your city" : "Recommended jobs"}
+            {isAllJobs ? 'All Jobs' :isAuth ? "Jobs in your city" : "Recommended jobs"}
           </span>
           <span className="text-sm font-semibold tracking-wider text-slate-400 md:text-base">
             {filteredJobs.length}
@@ -103,7 +104,7 @@ const RecommendedJobs = () => {
       ) : (
         <div className="mt-5 flex h-full w-full gap-4">
           {/* list */}
-          <div className="flex w-full md:w-2/5 flex-col">
+          <div className="flex w-full flex-col md:w-2/5">
             {filteredJobs.map((job, index) => (
               <JobListCard
                 key={job.id}
@@ -114,7 +115,7 @@ const RecommendedJobs = () => {
             ))}
           </div>
           {/*items details */}
-          <div className="sticky hidden md:flex h-screen w-full flex-col gap-10 rounded-xl bg-slate-100 p-6">
+          <div className="sticky hidden h-screen w-full flex-col gap-10 rounded-xl bg-slate-100 p-6 md:flex">
             <div className="flex items-start justify-between">
               <div className="flex items-start gap-4">
                 <Image
@@ -136,13 +137,14 @@ const RecommendedJobs = () => {
                   <span className="text-ellipsis text-xs font-semibold capitalize tracking-wider text-purple-500 line-clamp-2">
                     Pkr {filteredJobs[selectedListJob].salary}
                   </span>
-                  {/*Location */}
+                  {/* Industry */}
                   <div className="flex items-center gap-2">
-                    <TiLocation className="fill-purple-500" />
-                    <span className="text-xs font-semibold tracking-wider text-slate-400">
-                      {filteredJobs[selectedListJob].location}
+                    <HiOfficeBuilding className="fill-purple-500" />
+                    <span className="text-xs font-semibold capitalize tracking-wider text-slate-400">
+                      {filteredJobs[selectedListJob].industry}
                     </span>
                   </div>
+
                   {/* Types */}
                   <div className="flex items-center gap-2">
                     <MdOutlineWork className="fill-purple-500" />
@@ -156,6 +158,14 @@ const RecommendedJobs = () => {
                       {filteredJobs[selectedListJob].level}
                     </div>
                   </div>
+                  {/* Location */}
+                  <div className="flex items-center gap-2">
+                    <TiLocation className="fill-purple-500" />
+                    <span className="text-xs font-semibold tracking-wider text-slate-400">
+                      {filteredJobs[selectedListJob].location}
+                    </span>
+                  </div>
+                  {/* Created At */}
                   <div className="flex items-center gap-2">
                     <AiFillClockCircle className="fill-purple-500" />
                     <span className="text-xs font-semibold capitalize tracking-wider text-slate-400">

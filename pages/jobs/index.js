@@ -4,8 +4,8 @@ import SearchSection from "../../components/SearchSection";
 import { useRefreshToken } from "../../helpers/useRefreshToken";
 import { getAllJobs } from "../../services/job_services";
 import Filters from "../../components/Filters";
-import RecommendedJobs from "../../components/RecommendedJobs";
 import { useRouter } from "next/router";
+import RecommendedJobs from "../../components/RecommendedJobs";
 
 function Jobs({ jobs }) {
   // call refresh endpoint
@@ -29,14 +29,14 @@ function Jobs({ jobs }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="bg-slate-100 ">
+      <main className="bg-slate-50 ">
         <TopBar />
         <SearchSection />
 
         <div className="flex px-6 pt-80 md:px-16 md:pt-44">
           {/* filters */}
-          <Filters jobs={jobs} />
-          <div className="flex">All jobs</div>
+          <Filters jobs={jobs} isAllJobs={true} />
+          <RecommendedJobs isAllJobs={true} />
         </div>
       </main>
     </div>
