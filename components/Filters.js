@@ -35,17 +35,28 @@ const Filters = ({ jobs, isAllJobs = false }) => {
       "program",
       "industry",
     ];
-    const data = !isAllJobs
-      ? isAuth
-        ? jobs.filter((job) => job.location === user.city)
-        : jobs.filter((job) =>
-            recommendedKeys
-              .map((key) =>
-                job.industry.toLowerCase().includes(key.toLowerCase())
-              )
-              .includes(true)
-          )
-      : jobs;
+    let data;
+    switch (isAllJobs) {
+      case false:
+        data = isAuth
+          ? jobs.filter(
+              (job) => job.location === user.city && job.userId !== user.id
+            )
+          : jobs.filter((job) =>
+              recommendedKeys
+                .map((key) =>
+                  job.industry.toLowerCase().includes(key.toLowerCase())
+                )
+                .includes(true)
+            );
+        break;
+      case true:
+        data = isAuth ? jobs.filter((job) => job.userId !== user.id) : jobs;
+        break;
+      default:
+        break;
+    }
+
     return data;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAuth, jobs]);
@@ -110,7 +121,7 @@ const Filters = ({ jobs, isAllJobs = false }) => {
     setFilteredJobs(levelsJobs);
   } else {
     console.log(sortedJobs);
-    setFilteredJobs(sortedJobs);
+    setFilteredJobs([]);
   }
 
   return (

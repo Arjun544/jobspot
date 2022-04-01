@@ -2,27 +2,31 @@ import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 import YourDetails from "../components/YourDetails";
 import ApplyAs from "../components/ApplyAs";
-import { useRefreshToken } from "../helpers/useRefreshToken";
+
 import { toast } from "react-toastify";
 import ScaleLoader from "react-spinners/ScaleLoader";
 import { updateUser } from "../services/user_services";
 import { createCompany } from "../services/company_services";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setAuth } from "../redux/reducers/authSlice";
 
 const Apply = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const [isLoading, setIsLoading] = useState(false);
   const [currentTab, setCurrentTab] = useState(1);
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [details, setDetails] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
+  const [profile, setProfile] = useState("");
   const [cv, setCv] = useState("");
   const [companyName, setCompanyName] = useState("");
   const [companyWebsite, setCompanyWebsite] = useState("");
   const [companySize, setCompanySize] = useState(0);
   const [companyIndustry, setCompanyIndustry] = useState("");
   const [companyCity, setCompanyCity] = useState("");
+  const [companyContact, setCompanyContact] = useState("");
   const [companyImage, setCompanyImage] = useState("");
   const [companyDetails, setCompanyDetails] = useState("");
   const stepNames = ["step-1", "step-2"];
@@ -47,7 +51,8 @@ const Apply = () => {
             email: user.email,
             details,
             city: selectedCity,
-            // cv: cv[0].getFileEncodeDataURL(),
+            profile: profile[0].getFileEncodeDataURL(),
+            cv: cv[0].getFileEncodeDataURL(),
           };
           await updateUser(data);
           setIsLoading(false);
@@ -82,11 +87,25 @@ const Apply = () => {
             size: Number(companySize),
             industry: companyIndustry,
             city: companyCity,
-            image: "",
+            contact: companyContact,
             details: companyDetails,
-            image: JSON.stringify(companyImage[0].getFileEncodeDataURL()),
           };
-          await createCompany(user, company);
+          const { data } = await createCompany(
+            user,
+            company,
+            companyImage[0].getFileEncodeDataURL()
+          );
+          // Add user to redux
+          if (data.success === true) {
+            dispatch(
+              setAuth({
+                auth: data.auth,
+                user: data.user,
+              })
+            );
+
+            router.push("/");
+          }
           setIsLoading(false);
           router.push("/");
         } catch (error) {
@@ -106,19 +125,6 @@ const Apply = () => {
       setCurrentStepIndex(previewStepIndex);
     }
   };
-
-  // call refresh endpoint
-  const { loading } = useRefreshToken();
-
-  if (loading) {
-    return (
-      <div className="flex h-screen items-center justify-center">
-        <span className="animate-pulse text-xl font-semibold tracking-widest">
-          Loading....
-        </span>
-      </div>
-    );
-  }
 
   return (
     <div className="flex h-full w-full flex-col bg-white px-10 py-6 md:px-20">
@@ -154,6 +160,8 @@ const Apply = () => {
             details={details}
             setSelectedCity={setSelectedCity}
             selectedCity={selectedCity}
+            profile={profile}
+            setProfile={setProfile}
             setCv={setCv}
             cv={cv}
           />
@@ -172,6 +180,8 @@ const Apply = () => {
             companyIndustry={companyIndustry}
             setCompanyIndustry={setCompanyIndustry}
             companyCity={companyCity}
+            companyContact={companyContact}
+            setCompanyContact={setCompanyContact}
             setCompanyCity={setCompanyCity}
             companyDetails={companyDetails}
             setCompanyDetails={setCompanyDetails}

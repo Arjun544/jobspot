@@ -21,7 +21,7 @@ export const comparePassword = async (password, hashedPass) => {
 
 export const generateTokens = (payload) => {
   const accessToken = jwt.sign(payload, process.env.accessTokenSecret, {
-    expiresIn: "1m",
+    expiresIn: "15m",
   });
   const refreshToken = jwt.sign(payload, process.env.refreshTokenSecret, {
     expiresIn: "1y",

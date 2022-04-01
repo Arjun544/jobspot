@@ -1,6 +1,8 @@
 import prisma from "../../../config/prisma";
 import nextConnect from "next-connect";
+import cloudinary from "cloudinary";
 import upload from "../../../config/multer";
+import bodyParser from "body-parser";
 
 export default nextConnect({
   onError: (err, req, res, next) => {
@@ -11,24 +13,35 @@ export default nextConnect({
     res.status(404).end(`${req.method} not allowed`);
   },
 })
-  // .use(upload.single("cv"))
+  .use(upload.single("image"))
+  .use(bodyParser.urlencoded({ extended: true }))
+  .use(bodyParser.json({ limit: "50mb" }))
   .post(async (req, res) => {
-    const { user, company } = req.body;
+    const { user, company, image } = req.body;
 
-    // Upload image to cloudinary
-    // const result = await cloudinary.uploader.upload(image);
+    // Upload cv to cloudinary
+    let result;
+    try {
+      result = await cloudinary.v2.uploader.upload(image, {
+        folder: "Jobspot",
+      });
+    } catch (error) {
+      console.log(error);
+    }
     const newCompany = await prisma.company.create({
       data: {
         ...company,
+        image: result.secure_url,
+        imageId: result.public_id,
         user: {
           connect: {
-            id: user.id
-          }
+            id: user.id,
+          },
         },
       },
     });
 
-    await prisma.user.update({
+    const newUser = await prisma.user.update({
       where: {
         email: user.email,
       },
@@ -39,12 +52,14 @@ export default nextConnect({
 
     return res.json({
       success: true,
+      isAuth: true,
+      user: newUser,
       message: "User company created successfully",
     });
   });
 
-// export const config = {
-//   api: {
-//     bodyParser: false,
-//   },
-// };
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};

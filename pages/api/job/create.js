@@ -10,46 +10,41 @@ export default nextConnect({
   onNoMatch: (req, res) => {
     res.status(404).end(`${req.method} not allowed`);
   },
-})
-  // .use(upload.single("cv"))
-  .post(async (req, res) => {
-    const { applyingAs, user, job, companyId } = req.body;
+}).post(async (req, res) => {
+  const { applyingAs, user, job, companyId } = req.body;
 
-    // Upload image to cloudinary
-    // const result = await cloudinary.uploader.upload(image);
-
-    applyingAs === "individual"
-      ? await prisma.job.create({
-          data: {
-            ...job,
-            createdBy: {
-              connect: {
-                id: user.id,
-              },
+  applyingAs === "individual"
+    ? await prisma.job.create({
+        data: {
+          ...job,
+          createdBy: {
+            connect: {
+              id: user.id,
             },
           },
-        })
-      : await prisma.job.create({
-          data: {
-            ...job,
-            createdBy: {
-              connect: {
-                id: user.id,
-              },
-            },
-            company: {
-              connect: {
-                id: companyId,
-              },
+        },
+      })
+    : await prisma.job.create({
+        data: {
+          ...job,
+          createdBy: {
+            connect: {
+              id: user.id,
             },
           },
-        });
+          company: {
+            connect: {
+              id: companyId,
+            },
+          },
+        },
+      });
 
-    return res.json({
-      success: true,
-      message: "Job created successfully",
-    });
+  return res.json({
+    success: true,
+    message: "Job created successfully",
   });
+});
 
 // export const config = {
 //   api: {

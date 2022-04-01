@@ -38,9 +38,9 @@ const Login = () => {
           })
         );
 
-        data.user.companyId === null
+        data.user.companyId === null && data.user.details === ""
           ? router.push("/addDetails", { query: true })
-          : router.push("/");
+          : router.back();
         setEmail("");
         setPass("");
       }

@@ -11,24 +11,28 @@ datasource db {
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  name      String
-  email     String   @unique
-  password  String
-  profile   String
-  details   String
-  city      String
-  cv        String
-  type      String
-  jobs      Job[]    @relation(references: [id])
-  reviews   Review[]
-  company   Company?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-  Token     Token[]
-  companyId Int?
-  Job       Job[]    @relation("createdBy")
-  saved     Job[]    @relation("saveBy")
+  id             Int       @id @default(autoincrement())
+  name           String
+  email          String    @unique
+  password       String
+  profile        String
+  profileId      String
+  details        String
+  city           String
+  cv             String
+  cvId           String
+  type           String
+  reviews        Review[]
+  company        Company?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @default(now())
+  Token          Token[]
+  companyId      Int?
+  jobs           Job[]     @relation("createdBy")
+  savedJobs      Job[]     @relation("savedJobs")
+  savedCompanies Company[] @relation("savedCompanies")
+  Job            Job?      @relation(fields: [jobId], references: [id])
+  jobId          Int?
 }
 
 model Token {
@@ -48,15 +52,15 @@ model Job {
   type        String
   level       String
   salary      String
-  image       String
   location    String
   industry    String
   contact     String
+  isClosed    Boolean  @default(false)
   createdBy   User     @relation("createdBy", fields: [userId], references: [id])
   userId      Int
   reviews     Review[]
   applicants  User[]
-  saveBy      User[]   @relation("saveBy", references: [id])
+  saveBy      User[]   @relation("savedJobs", references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
   company     Company? @relation(fields: [companyId], references: [id])
@@ -81,10 +85,13 @@ model Company {
   name      String
   details   String
   image     String
+  imageId   String
   city      String
   size      Int
   industry  String
   website   String
+  contact   String
+  saveBy    User[]   @relation("savedCompanies", references: [id])
   jobs      Job[]
   reviews   Review[]
   createdAt DateTime @default(now())

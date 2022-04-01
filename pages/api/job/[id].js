@@ -19,8 +19,8 @@ export default nextConnect({
         createdBy: true,
         reviews: {
           include: {
-            user: true
-          }
+            user: true,
+          },
         },
         applicants: true,
         saveBy: true,

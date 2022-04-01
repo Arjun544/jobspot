@@ -1,13 +1,14 @@
 import Image from "next/image";
 import React, { useRef, useState } from "react";
 import { TiArrowSortedDown } from "react-icons/ti";
-import { MdPerson } from "react-icons/md";
+import { MdPerson, MdWork, MdOutlineDoneAll } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import { useOnClickOutside } from "usehooks-ts";
-import { RiChat3Fill, RiLogoutCircleRFill } from "react-icons/ri";
+import { RiLogoutCircleRFill } from "react-icons/ri";
 import { useRouter } from "next/router";
 import { logout } from "../services/auth_services";
 import { setAuth } from "../redux/reducers/authSlice";
+import { HiOfficeBuilding } from "react-icons/hi";
 
 const options = [
   {
@@ -15,8 +16,16 @@ const options = [
     icon: <MdPerson className="fill-slate-400" fontSize={25} />,
   },
   {
-    name: "My reviews",
-    icon: <RiChat3Fill className="fill-slate-400" fontSize={23} />,
+    name: "My Jobs",
+    icon: <MdWork className="fill-slate-400" fontSize={23} />,
+  },
+  {
+    name: "My Company",
+    icon: <HiOfficeBuilding className="fill-slate-400" fontSize={23} />,
+  },
+  {
+    name: "Applied Jobs",
+    icon: <MdOutlineDoneAll className="fill-slate-400" fontSize={23} />,
   },
   {
     name: "Logout",
@@ -45,9 +54,13 @@ const ProfileSection = () => {
     e.preventDefault();
     console.log(index);
     if (index === 0) {
-      router.push("/profile");
+      router.push(`/profile/${user.id}`);
     } else if (index === 1) {
-      router.push("/reviews");
+      router.push(`/profile/jobs/${user.id}`);
+    } else if (index === 2) {
+      router.push(`/profile/company/${user.id}`);
+    } else if (index === 3) {
+      router.push(`/profile/applied/${user.id}`);
     } else {
       const { data } = await logout(user.id);
       dispatch(setAuth(data));

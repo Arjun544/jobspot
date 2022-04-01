@@ -18,6 +18,8 @@ const YourDetails = ({
   setDetails,
   selectedCity,
   setSelectedCity,
+  profile,
+  setProfile,
   cv,
   setCv,
 }) => {
@@ -41,9 +43,23 @@ const YourDetails = ({
           selectedCity={selectedCity}
           setSelectedCity={setSelectedCity}
           height="h-16"
-          width={'w-full'}
+          width={"w-full"}
         />
-        <div className="w-full mt-6">
+        <div className="mt-6 w-full">
+          <FilePond
+            files={profile}
+            allowReorder={false}
+            allowMultiple={false}
+            onupdatefiles={setProfile}
+            allowFileTypeValidation={true}
+            allowFileEncode={true}
+            acceptedFileTypes={["image/png", "image/jpeg", "image/jpg"]}
+            labelIdle={
+              "Drag & Drop your profile or <span class=filepond--label-action text-green-500 no-underline>Browse</span>"
+            }
+          />
+        </div>
+        <div className="mt-6 w-full">
           <FilePond
             files={cv}
             allowReorder={false}

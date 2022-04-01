@@ -9,7 +9,20 @@ const api = axios.create({
   },
 });
 
-export const createCompany = async (user, company) =>
-  await api.post("/company/create", { user, company });
+export const createCompany = async (user, company, image) =>
+  await api.post("/company/create", { user, company, image });
+
+export const getCompany = async (id) => await api.get(`/company/${id}`);
+
+export const getUserCompany = async (id) =>
+  await api.post("/company/userCompany", { userId: id });
+
+export const getUserSavedCompanies = async (id) =>
+  await api.post("/company/savedCompanies", { id });
+
+export const getAllCompanies = async () => await api.get("/company/get");
+
+export const saveCompany = async (status, companyId, userId) =>
+  await api.post("/company/save", { status, companyId, userId });
 
 export default api;

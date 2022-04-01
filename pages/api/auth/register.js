@@ -41,6 +41,8 @@ export default async function handler(req, res) {
           email,
           password: hashedPass,
           profile: "",
+          profileId:"",
+          cvId: "",
           details: "",
           city: "",
           cv: "",

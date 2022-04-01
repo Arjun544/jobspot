@@ -28,6 +28,7 @@ const ApplyAs = ({
   setCompanyIndustry,
   companyCity,
   setCompanyCity,
+  companyContact, setCompanyContact,
   companyDetails,
   setCompanyDetails,
 }) => {
@@ -102,12 +103,25 @@ const ApplyAs = ({
               className="h-16 w-full rounded-xl border-0 bg-slate-200 px-4 text-sm text-black outline-none placeholder:text-sm placeholder:text-slate-400"
             ></input>
           </div>
-          <LocationInput
-            selectedCity={companyCity}
-            setSelectedCity={setCompanyCity}
-            height="h-16"
-            width={"w-full"}
-          />
+          <div className="flex flex-col items-center gap-4 md:flex md:flex-row">
+            <LocationInput
+              selectedCity={companyCity}
+              setSelectedCity={setCompanyCity}
+              height="h-16"
+              width={"w-full"}
+            />
+            <input
+              value={companyContact}
+              type="text"
+              placeholder="Contact"
+              required
+              min={2}
+              autoComplete="off"
+              onChange={(e) => setCompanyContact(e.target.value)}
+              className="h-16 w-full rounded-xl border-0 bg-slate-200 pl-4 text-sm text-black outline-none placeholder:text-sm placeholder:text-slate-400"
+            ></input>
+          </div>
+
           <textarea
             value={companyDetails}
             name="details"
@@ -131,7 +145,7 @@ const ApplyAs = ({
               allowFileEncode={true}
               acceptedFileTypes={["image/png", "image/jpeg"]}
               labelIdle={
-                "Drag & Drop company image or <span class=filepond--label-action text-green-500 no-underline>Browse</span>"
+                "Drag & Drop company logo or <span class=filepond--label-action text-green-500 no-underline>Browse</span>"
               }
             />
           </div>

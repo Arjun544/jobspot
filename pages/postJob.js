@@ -5,27 +5,13 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import TopBar from "../components/TopBar";
 import { createJob } from "../services/job_services";
-import { useRefreshToken } from "../helpers/useRefreshToken";
+
 import CustomDropDown from "../components/CustomDropDown";
 import LocationInput from "../components/LocationInput";
-import { FilePond, registerPlugin } from "react-filepond";
-import FilePondPluginFileValidateType from "filepond-plugin-file-validate-type";
-import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
-import FilePondPluginImagePreview from "filepond-plugin-image-preview";
-import FilePondPluginFileEncode from "filepond-plugin-file-encode";
 import { toast } from "react-toastify";
 import { ScaleLoader } from "react-spinners";
 
-registerPlugin(
-  FilePondPluginImageExifOrientation,
-  FilePondPluginImagePreview,
-  FilePondPluginFileValidateType,
-  FilePondPluginFileEncode
-);
-
 const PostJob = () => {
-  // call refresh endpoint
-  const { loading } = useRefreshToken();
   const router = useRouter();
   const { isAuth, user } = useSelector((state) => state.auth);
   const [isLoading, setIsloading] = useState(false);
@@ -39,14 +25,6 @@ const PostJob = () => {
   const [industry, setIndustry] = useState("");
   const [contact, setContact] = useState("");
   const [details, setDetails] = useState("");
-  const [image, setImage] = useState("");
-
-  useEffect(() => {
-    if (!isAuth) {
-      router.push("/");
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const handleCreateJob = async () => {
     // Check if all fields are filled
@@ -59,8 +37,7 @@ const PostJob = () => {
       city === "" ||
       industry === "" ||
       contact === "" ||
-      details === "" ||
-      image.length < 1
+      details === ""
     ) {
       toast.warn("Please fill all fields");
       return;
@@ -75,8 +52,6 @@ const PostJob = () => {
       industry,
       contact,
       description: details,
-      image: "",
-      // image: image[0].get,
     };
     try {
       setIsloading(true);
@@ -95,7 +70,6 @@ const PostJob = () => {
         setIndustry("");
         setContact("");
         setDetails("");
-        setImage("");
         return toast.success("Job created successfully");
       }
     } catch (error) {
@@ -104,16 +78,6 @@ const PostJob = () => {
       toast.error(error.message);
     }
   };
-
-  if (loading) {
-    return (
-      <div className="flex h-screen items-center justify-center">
-        <span className="animate-pulse text-xl font-semibold tracking-widest">
-          Loading....
-        </span>
-      </div>
-    );
-  }
 
   return (
     <div className="h-screen w-screen bg-white">
@@ -132,29 +96,35 @@ const PostJob = () => {
       <div className="flex flex-col px-10 pt-20">
         <div className="mt-4 mb-6 items-center justify-between md:flex">
           {/* Tabbar*/}
-          <div className="flex items-center justify-center gap-6">
+          {user?.companyId === null ? (
             <span className="text-sm font-semibold tracking-wider text-black">
-              Create job as
+              Creating job as individual
             </span>
-            <div className="flex h-16 w-72 gap-2 rounded-2xl bg-slate-100">
-              <div
-                onClick={() => setCurrentTab(0)}
-                className={`m-2 flex w-full cursor-pointer items-center justify-center rounded-xl text-sm font-semibold tracking-wider transition-all duration-300 ease-in-out hover:scale-95 ${
-                  currentTab === 0 ? "bg-sky-500 text-white" : "bg-slate-100"
-                }`}
-              >
-                Individual
-              </div>
-              <div
-                onClick={() => setCurrentTab(1)}
-                className={`m-2 flex w-full cursor-pointer items-center justify-center rounded-xl text-sm font-semibold tracking-wider transition-all duration-300 ease-in-out hover:scale-95 ${
-                  currentTab === 1 ? "bg-sky-500 text-white" : "bg-slate-100"
-                }`}
-              >
-                Company
+          ) : (
+            <div className="flex items-center justify-center gap-6">
+              <span className="text-sm font-semibold tracking-wider text-black">
+                Create job as
+              </span>
+              <div className="flex h-16 w-72 gap-2 rounded-2xl bg-slate-100">
+                <div
+                  onClick={() => setCurrentTab(0)}
+                  className={`m-2 flex w-full cursor-pointer items-center justify-center rounded-xl text-sm font-semibold tracking-wider transition-all duration-300 ease-in-out hover:scale-95 ${
+                    currentTab === 0 ? "bg-sky-500 text-white" : "bg-slate-100"
+                  }`}
+                >
+                  Individual
+                </div>
+                <div
+                  onClick={() => setCurrentTab(1)}
+                  className={`m-2 flex w-full cursor-pointer items-center justify-center rounded-xl text-sm font-semibold tracking-wider transition-all duration-300 ease-in-out hover:scale-95 ${
+                    currentTab === 1 ? "bg-sky-500 text-white" : "bg-slate-100"
+                  }`}
+                >
+                  Company
+                </div>
               </div>
             </div>
-          </div>
+          )}
           {/* Button */}
           {isLoading ? (
             <ScaleLoader color="#00BFFF" loading={isLoading} />
@@ -265,20 +235,6 @@ const PostJob = () => {
             onChange={(e) => setDetails(e.target.value)}
             className="mb-6 rounded-xl border-0 bg-slate-200 p-4 outline-none"
           ></textarea>
-          <div className="w-full">
-            <FilePond
-              files={image}
-              allowReorder={false}
-              allowMultiple={false}
-              onupdatefiles={setImage}
-              allowFileTypeValidation={true}
-              allowFileEncode={true}
-              acceptedFileTypes={["image/png", "image/jpeg"]}
-              labelIdle={
-                "Drag & Drop job image or <span class=filepond--label-action text-green-500 no-underline>Browse</span>"
-              }
-            />
-          </div>
         </div>
       </div>
     </div>

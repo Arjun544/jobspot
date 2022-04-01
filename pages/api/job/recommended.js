@@ -12,7 +12,7 @@ export default nextConnect({
 }).get(async (req, res) => {
   const { city } = req.query;
 
-  console.log(city)
+  console.log(city);
   try {
     const jobs = await prisma.job.findMany({
       where: {
@@ -31,4 +31,3 @@ export default nextConnect({
     });
   }
 });
-  

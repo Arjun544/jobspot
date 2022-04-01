@@ -1,6 +1,8 @@
 import prisma from "../../../config/prisma";
+import cloudinary from "cloudinary";
 import nextConnect from "next-connect";
 import upload from "../../../config/multer";
+import bodyParser from "body-parser";
 
 export default nextConnect({
   onError: (err, req, res, next) => {
@@ -11,12 +13,30 @@ export default nextConnect({
     res.status(404).end(`${req.method} not allowed`);
   },
 })
-  // .use(upload.single("cv"))
+  .use(upload.single("user"))
+  .use(bodyParser.urlencoded({ extended: true }))
+  .use(bodyParser.json({ limit: "50mb" }))
   .post(async (req, res) => {
     const { user } = req.body;
-  
-    // Upload image to cloudinary
-    // const result = await cloudinary.uploader.upload(image);
+
+    // Upload profile & cv to cloudinary
+    let cvResult;
+    let profileResult;
+    try {
+      cvResult = await cloudinary.v2.uploader.upload(user.cv, {
+        transformation: {
+          flags: `attachment:${Date.now()}`,
+          fetch_format: "png",
+        },
+        format: "png",
+        folder: "Jobspot",
+      });
+      profileResult = await cloudinary.v2.uploader.upload(user.profile, {
+        folder: "Jobspot",
+      });
+    } catch (error) {
+      console.log(error);
+    }
     await prisma.user.update({
       where: {
         email: user.email,
@@ -24,6 +44,10 @@ export default nextConnect({
       data: {
         details: user.details,
         city: user.city,
+        profile: profileResult.secure_url,
+        profileId: profileResult.public_id,
+        cv: cvResult.secure_url,
+        cvId: cvResult.public_id,
       },
     });
 
@@ -33,8 +57,8 @@ export default nextConnect({
     });
   });
 
-// export const config = {
-//   api: {
-//     bodyParser: false,
-//   },
-// };
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};

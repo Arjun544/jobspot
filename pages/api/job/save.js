@@ -9,7 +9,7 @@ export default nextConnect({
   onNoMatch: (req, res) => {
     res.status(404).end(`${req.method} not allowed`);
   },
-}).post(async (req, res) => {
+}).use(auth_middleware).post(async (req, res) => {
   const { status, jobId, userId } = req.body;
 
   try {

@@ -1,26 +1,15 @@
-import { createContext, useMemo, useState } from "react";
 import Head from "next/head";
 import TopBar from "../components/TopBar";
 import SearchSection from "../components/SearchSection";
-import { useRefreshToken } from "../helpers/useRefreshToken";
+
 import { getAllJobs } from "../services/job_services";
 import Filters from "../components/Filters";
 import RecommendedJobs from "../components/RecommendedJobs";
 import { useSelector } from "react-redux";
 
 function Home({ jobs }) {
-  // call refresh endpoint
-  const { loading } = useRefreshToken();
+  const { isAuth, user } = useSelector((state) => state.auth);
 
-  if (loading) {
-    return (
-      <div className="flex h-screen items-center justify-center">
-        <span className="animate-pulse text-xl font-semibold tracking-widest">
-          Loading....
-        </span>
-      </div>
-    );
-  }
   return (
     <>
       <Head>

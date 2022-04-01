@@ -1,26 +1,13 @@
 import Head from "next/head";
 import TopBar from "../../components/TopBar";
 import SearchSection from "../../components/SearchSection";
-import { useRefreshToken } from "../../helpers/useRefreshToken";
+
 import { getAllJobs } from "../../services/job_services";
 import Filters from "../../components/Filters";
 import { useRouter } from "next/router";
 import RecommendedJobs from "../../components/RecommendedJobs";
 
 function Jobs({ jobs }) {
-  // call refresh endpoint
-  const { loading } = useRefreshToken();
-  const router = useRouter();
-
-  if (loading) {
-    return (
-      <div className="flex h-screen items-center justify-center">
-        <span className="animate-pulse text-xl font-semibold tracking-widest">
-          Loading....
-        </span>
-      </div>
-    );
-  }
   return (
     <div>
       <Head>

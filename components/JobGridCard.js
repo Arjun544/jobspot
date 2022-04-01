@@ -14,7 +14,9 @@ const JobGridCard = ({ job }) => {
       <div className="flex items-center justify-between">
         <Image
           className="rounded-full"
-          src={job.image}
+          src={
+            job.companyId === null ? job.createdBy.profile : job.company.image
+          }
           alt="Image of job"
           height={50}
           width={50}
@@ -49,7 +51,6 @@ const JobGridCard = ({ job }) => {
         sdfksdfsksdsfjndfsnfsfnksndfsdfjsdfnslsndfsddsfnlsndlsldfsdfslndfsdfnsllllllsdnlsdfnlslllsndfsldfsldfslflls
         sdfsnflsflsdjfsdfosifhoshfoshf sfhsofhsofshfosh k{job.description}
       </p>
-   
     </div>
   );
 };

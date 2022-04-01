@@ -2,12 +2,11 @@ import Link from "next/link";
 import React from "react";
 import ProfileSection from "./ProfileSection";
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 
 const TopBar = () => {
   const router = useRouter();
-  const { isAuth } = useSelector((state) => state.auth);
+  const { isAuth, user } = useSelector((state) => state.auth);
 
   return (
     <div className="fixed z-50 flex h-16 w-full items-center justify-between bg-white px-4 shadow md:px-16">
@@ -50,13 +49,13 @@ const TopBar = () => {
           </span>
         </Link>
         {isAuth && (
-          <Link href="/myjobs" passHref>
+          <Link href={`/mySaved/${user.id}`} passHref>
             <span
               className={`cursor-pointer rounded-xl py-2 px-4 ${
-                router.pathname === "/myjobs" ? "text-sky-500" : "text-black"
+                router.pathname === "/mySaved" ? "text-sky-500" : "text-black"
               } text-xs font-semibold tracking-wider hover:bg-slate-200 md:text-sm`}
             >
-              My Jobs
+              My Saved
             </span>
           </Link>
         )}

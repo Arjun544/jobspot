@@ -77,7 +77,11 @@ const RecommendedJobs = ({ isAllJobs = false }) => {
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-2 pb-3 md:pb-0">
           <span className="text-sm font-semibold tracking-wider md:text-base">
-            {isAllJobs ? 'All Jobs' :isAuth ? "Jobs in your city" : "Recommended jobs"}
+            {isAllJobs
+              ? "All Jobs"
+              : isAuth
+              ? "Jobs in your city"
+              : "Recommended jobs"}
           </span>
           <span className="text-sm font-semibold tracking-wider text-slate-400 md:text-base">
             {filteredJobs.length}
@@ -120,7 +124,11 @@ const RecommendedJobs = ({ isAllJobs = false }) => {
               <div className="flex items-start gap-4">
                 <Image
                   className="rounded-full"
-                  src={filteredJobs[selectedListJob].image}
+                  src={
+                    filteredJobs[selectedListJob].companyId === null
+                      ? filteredJobs[selectedListJob].createdBy.profile
+                      : filteredJobs[selectedListJob].company.image
+                  }
                   alt="Image of job"
                   height={50}
                   width={50}
