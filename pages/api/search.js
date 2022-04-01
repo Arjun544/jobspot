@@ -1,4 +1,4 @@
-import prisma from "../../../config/prisma";
+import prisma from "../../config/prisma";
 import nextConnect from "next-connect";
 
 export default nextConnect({
@@ -9,14 +9,25 @@ export default nextConnect({
   onNoMatch: (req, res) => {
     res.status(404).end(`${req.method} not allowed`);
   },
-}).get(async (req, res) => {
-  const { query } = req.query;
+}).post(async (req, res) => {
+  const { query, location, salary } = req.body;
+  const city = location.split(",")[0];
+  const province = location.split(",")[1];
+  const country = location.split(",")[2];
+
+  console.log([+salary].filter((n) => n < salary));
 
   try {
     const jobs = await prisma.job.findMany({
       where: {
         title: {
           search: query,
+        },
+        location: {
+          search: `${city} & ${province} & ${country}`,
+        },
+        salary: {
+          search: salary,
         },
       },
       orderBy: {
@@ -30,7 +41,6 @@ export default nextConnect({
         company: true,
       },
     });
-
     return res.json({
       success: true,
       jobs,

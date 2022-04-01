@@ -9,6 +9,7 @@ const api = axios.create({
   },
 });
 
-export const getSearch = async (query) => await api.get(`/search/${query}`);
+export const getSearch = async (query, location, salary) =>
+  await api.post("/search", { query, location, salary });
 
 export default api;

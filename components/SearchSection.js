@@ -8,16 +8,22 @@ import { toast } from "react-toastify";
 
 const SearchSection = () => {
   const { isAuth, user } = useSelector((state) => state.auth);
-  const { query, setQuery, setFilteredJobs } = useContext(AppContext);
-  const [salary, setSalary] = useState(50000);
+  const { query, setQuery, setFilteredJobs, setSearchedJobs } =
+    useContext(AppContext);
+  const [salary, setSalary] = useState(60000);
   const [selectedCity, setSelectedCity] = useState(isAuth ? user.city : "");
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    const { data } = await getSearch(query.toLowerCase());
+    console.log(salary.toString());
+    const { data } = await getSearch(
+      query.toLowerCase(),
+      selectedCity,
+      salary.toString()
+    );
     if (data.success) {
-      console.log(data.jobs);
       setFilteredJobs(data.jobs);
+      setSearchedJobs(data.jobs);
     } else {
       toast.error(data.message);
     }
@@ -56,11 +62,11 @@ const SearchSection = () => {
           onChange={(e) => setSalary(e.target.value)}
         ></input>
       </div>
-      {query && (
+      {/* Search button */}
+      {query.length > 3 && (
         <button
           onClick={(e) => handleSearch(e)}
-          disabled={query.length < 3}
-          className="rounded-xl bg-black px-8 py-3 text-sm font-semibold tracking-widest text-white transition-all duration-500 ease-in-out hover:scale-105 disabled:cursor-not-allowed disabled:bg-slate-300"
+          className="rounded-xl bg-black px-8 py-3 text-sm font-semibold tracking-widest text-white transition-all duration-500 ease-in-out hover:scale-105"
         >
           Search
         </button>

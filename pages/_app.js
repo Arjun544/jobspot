@@ -16,10 +16,18 @@ export const AppContext = createContext(null);
 function MyApp({ Component, pageProps }) {
   const [query, setQuery] = useState("");
   const [filteredJobs, setFilteredJobs] = useState([]);
+  const [searchedJobs, setSearchedJobs] = useState([]);
 
   return (
     <AppContext.Provider
-      value={{ query, setQuery, filteredJobs, setFilteredJobs }}
+      value={{
+        query,
+        setQuery,
+        filteredJobs,
+        setFilteredJobs,
+        searchedJobs,
+        setSearchedJobs,
+      }}
     >
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>

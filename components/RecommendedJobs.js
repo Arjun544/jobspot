@@ -18,7 +18,7 @@ import { ScaleLoader } from "react-spinners";
 import { HiOfficeBuilding } from "react-icons/hi";
 
 const RecommendedJobs = ({ isAllJobs = false }) => {
-  const { filteredJobs } = useContext(AppContext);
+  const { query, searchedJobs, filteredJobs } = useContext(AppContext);
   const { isAuth, user } = useSelector((state) => state.auth);
   const [viewType, setViewType] = useState("grid");
   const [selectedListJob, setSelectedListJob] = useState(0);
@@ -77,7 +77,9 @@ const RecommendedJobs = ({ isAllJobs = false }) => {
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-2 pb-3 md:pb-0">
           <span className="text-sm font-semibold tracking-wider md:text-base">
-            {isAllJobs
+            {query
+              ? `Showing results for ${query}`
+              : isAllJobs
               ? "All Jobs"
               : isAuth
               ? "Jobs in your city"
@@ -91,14 +93,25 @@ const RecommendedJobs = ({ isAllJobs = false }) => {
       </div>
       {/* List of jobs */}
       {filteredJobs.length === 0 ? (
-        <div className="flex h-full w-full flex-col items-center pt-20">
-          <div className="flex h-72 w-72 items-center justify-center">
-            <Lottie animationData={empty} autoPlay={true} loop={true} />
+        query.length < 4 ? (
+          <div className="flex h-full w-full flex-col items-center pt-20">
+            <div className="flex h-72 w-72 items-center justify-center">
+              <Lottie animationData={empty} autoPlay={true} loop={true} />
+            </div>
+            <span className="font-semibold tracking-widest text-slate-300">
+              Enter more than 3 characters to search
+            </span>
           </div>
-          <span className="font-semibold tracking-widest text-slate-300">
-            No jobs found
-          </span>
-        </div>
+        ) : (
+          <div className="flex h-full w-full flex-col items-center pt-20">
+            <div className="flex h-72 w-72 items-center justify-center">
+              <Lottie animationData={empty} autoPlay={true} loop={true} />
+            </div>
+            <span className="font-semibold tracking-widest text-slate-300">
+              No jobs found
+            </span>
+          </div>
+        )
       ) : viewType === "grid" ? (
         <div className="mt-5 grid h-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {filteredJobs.map((job) => (

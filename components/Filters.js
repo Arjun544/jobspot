@@ -15,7 +15,12 @@ const sorts = [
 ];
 
 const Filters = ({ jobs, isAllJobs = false }) => {
-  const { query, filteredJobs, setFilteredJobs } = useContext(AppContext);
+  const {
+    query,
+    filteredJobs,
+    setFilteredJobs,
+    searchedJobs,
+  } = useContext(AppContext);
   const { isAuth, user } = useSelector((state) => state.auth);
   const [currentSort, setCurrentSort] = useState(null);
   const [sortCheck, setSortCheck] = useState(null);
@@ -52,7 +57,7 @@ const Filters = ({ jobs, isAllJobs = false }) => {
         break;
       case true:
         // data = isAuth ? jobs.filter((job) => job.userId !== user.id) : jobs;
-        data =  jobs;
+        data = jobs;
         break;
       default:
         break;
@@ -64,7 +69,7 @@ const Filters = ({ jobs, isAllJobs = false }) => {
 
   // Returns the jobs where job type contains any schedule type
   const schedulesJobs = useMemo(() => {
-    const newJobs = recommendedJobs.filter((job) =>
+    const newJobs = filteredJobs.filter((job) =>
       schedules
         .map((schedule) =>
           job.schedule.toLowerCase().includes(schedule.toLowerCase())
@@ -76,7 +81,7 @@ const Filters = ({ jobs, isAllJobs = false }) => {
 
   // Returns the jobs where job type contains any type type
   const typesJobs = useMemo(() => {
-    const newJobs = recommendedJobs.filter((job) =>
+    const newJobs = filteredJobs.filter((job) =>
       types
         .map((type) => job.type.toLowerCase().includes(type.toLowerCase()))
         .includes(true)
@@ -86,7 +91,7 @@ const Filters = ({ jobs, isAllJobs = false }) => {
 
   // Returns the jobs where job type contains any type type
   const levelsJobs = useMemo(() => {
-    const newJobs = recommendedJobs.filter((job) =>
+    const newJobs = filteredJobs.filter((job) =>
       levels
         .map((level) => job.level.toLowerCase().includes(level.toLowerCase()))
         .includes(true)
@@ -107,22 +112,40 @@ const Filters = ({ jobs, isAllJobs = false }) => {
     return newJobs;
   }, [currentSort, filteredJobs]);
 
+  useEffect(() => {
+    setFilteredJobs(recommendedJobs);
+  }, []);
+
+  if (query === "") {
+    if (
+      schedules.length === 0 &&
+      types.length === 0 &&
+      levels.length === 0 &&
+      currentSort === null
+    ) {
+      setFilteredJobs(recommendedJobs);
+    } else if (schedules.length !== 0) {
+      setFilteredJobs(schedulesJobs);
+    } else if (types.length !== 0) {
+      setFilteredJobs(typesJobs);
+    } else if (levels.length !== 0) {
+      setFilteredJobs(levelsJobs);
+    } 
+  } else {
   if (
-    query === "" &&
     schedules.length === 0 &&
     types.length === 0 &&
     levels.length === 0 &&
     currentSort === null
   ) {
-    setFilteredJobs(recommendedJobs);
+    setFilteredJobs(searchedJobs);
   } else if (schedules.length !== 0) {
     setFilteredJobs(schedulesJobs);
   } else if (types.length !== 0) {
     setFilteredJobs(typesJobs);
   } else if (levels.length !== 0) {
     setFilteredJobs(levelsJobs);
-  } else {
-    setFilteredJobs(filteredJobs);
+  }
   }
 
   return (
