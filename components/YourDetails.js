@@ -24,7 +24,7 @@ const YourDetails = ({
   setCv,
 }) => {
   return (
-    <div className="mt-14 flex h-full w-full flex-col">
+    <div className="mt-14 flex h-full w-full lg:w-1/2 flex-col items-center justify-center">
       <textarea
         value={details}
         name="details"
@@ -36,9 +36,9 @@ const YourDetails = ({
         placeholder="Your details"
         required
         onChange={(e) => setDetails(e.target.value)}
-        className="mb-6 rounded-xl border-0 bg-slate-200 p-4 outline-none"
+        className="mb-6 rounded-xl w-full border-0 bg-slate-200 p-4 outline-none"
       ></textarea>
-      <div className="flex flex-col items-center justify-between">
+      <div className="flex flex-col items-center justify-between w-full">
         <LocationInput
           selectedCity={selectedCity}
           setSelectedCity={setSelectedCity}

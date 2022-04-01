@@ -15,10 +15,10 @@ const sorts = [
 ];
 
 const Filters = ({ jobs, isAllJobs = false }) => {
-  const { filteredJobs, setFilteredJobs } = useContext(AppContext);
+  const { query, filteredJobs, setFilteredJobs } = useContext(AppContext);
   const { isAuth, user } = useSelector((state) => state.auth);
   const [currentSort, setCurrentSort] = useState(null);
-  const [sortCheck, setSortCheck] = useState(0);
+  const [sortCheck, setSortCheck] = useState(null);
   const [schedules, setSchedules] = useState([]);
   const [types, setTypes] = useState([]);
   const [levels, setLevels] = useState([]);
@@ -51,7 +51,8 @@ const Filters = ({ jobs, isAllJobs = false }) => {
             );
         break;
       case true:
-        data = isAuth ? jobs.filter((job) => job.userId !== user.id) : jobs;
+        // data = isAuth ? jobs.filter((job) => job.userId !== user.id) : jobs;
+        data =  jobs;
         break;
       default:
         break;
@@ -107,6 +108,7 @@ const Filters = ({ jobs, isAllJobs = false }) => {
   }, [currentSort, filteredJobs]);
 
   if (
+    query === "" &&
     schedules.length === 0 &&
     types.length === 0 &&
     levels.length === 0 &&
@@ -120,8 +122,7 @@ const Filters = ({ jobs, isAllJobs = false }) => {
   } else if (levels.length !== 0) {
     setFilteredJobs(levelsJobs);
   } else {
-    console.log(sortedJobs);
-    setFilteredJobs([]);
+    setFilteredJobs(filteredJobs);
   }
 
   return (

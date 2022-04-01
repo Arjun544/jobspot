@@ -38,7 +38,7 @@ const CustomDropDown = ({ hint, items, selectedItem, setSelectedItem }) => {
       {isOpen && (
         <div
           ref={ref}
-          className={`absolute top-[70px] left-0 right-1 z-50 flex max-h-96 w-full flex-col overflow-y-scroll rounded-2xl bg-slate-200 py-4 px-2 shadow`}
+          className={`absolute top-[70px] left-0 right-1 z-50 flex max-h-96 w-full flex-col rounded-2xl bg-slate-200 py-4 px-2 shadow`}
         >
           {items.map((item, index) => (
             <span

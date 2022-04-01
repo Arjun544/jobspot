@@ -1,16 +1,13 @@
 import Head from "next/head";
 import Lottie from "lottie-react";
+import empty from "../../public/empty.json";
 import TopBar from "../../components/TopBar";
 import SearchSection from "../../components/SearchSection";
 import CompanyGridCard from "../../components/CompanyGridCard";
-
-import { useRouter } from "next/router";
 import { getAllCompanies } from "../../services/company_services";
-import { useState } from "react";
 import { useSelector } from "react-redux";
 
 function Companies({ companies }) {
-  const router = useRouter();
   const { isAuth, user } = useSelector((state) => state.auth);
 
   return (

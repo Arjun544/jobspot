@@ -14,10 +14,13 @@ let persistor = persistStore(store);
 export const AppContext = createContext(null);
 
 function MyApp({ Component, pageProps }) {
+  const [query, setQuery] = useState("");
   const [filteredJobs, setFilteredJobs] = useState([]);
 
   return (
-    <AppContext.Provider value={{ filteredJobs, setFilteredJobs }}>
+    <AppContext.Provider
+      value={{ query, setQuery, filteredJobs, setFilteredJobs }}
+    >
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <ToastContainer

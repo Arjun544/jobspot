@@ -183,7 +183,9 @@ const Profile = ({ user }) => {
         </div>
         <div className="flex items-center justify-between">
           <div
-            onClick={(e) => router.push(`/profile/jobs/${user.id}`)}
+            onClick={(e) =>
+              user.jobs.length > 0 && router.push(`/profile/jobs/${user.id}`)
+            }
             className="flex cursor-pointer items-center gap-6 rounded-xl bg-slate-100 py-3 px-6 shadow-sm hover:bg-slate-200"
           >
             <span className="text-sm font-semibold capitalize tracking-wider text-slate-400">
@@ -194,21 +196,26 @@ const Profile = ({ user }) => {
             </span>
           </div>
           <div
-            onClick={(e) => router.push(`/profile/company/${user.id}`)}
+            onClick={(e) =>
+              user.company !== null &&
+              router.push(`/profile/company/${user.id}`)
+            }
             className="flex cursor-pointer items-center gap-6 rounded-xl bg-slate-100 py-3 px-6 shadow-sm hover:bg-slate-200"
           >
             <span className="text-sm font-semibold capitalize tracking-wider text-slate-400">
               My Company
             </span>
             <span className="text-xs font-semibold capitalize tracking-wider">
-              {user.company ? '1' : '0'}
+              {user.company ? "1" : "0"}
             </span>
           </div>
-          <div className="flex cursor-pointer items-center gap-6 rounded-xl bg-slate-100 py-3 px-6 shadow-sm hover:bg-slate-200">
+          <div
+            onClick={(e) => router.push(`/profile/applied/${user.id}`)}
+            className="flex cursor-pointer items-center gap-6 rounded-xl bg-slate-100 py-3 px-6 shadow-sm hover:bg-slate-200"
+          >
             <span className="text-sm font-semibold capitalize tracking-wider text-slate-400">
               Applied jobs
             </span>
-           
           </div>
         </div>
         {/* CV */}

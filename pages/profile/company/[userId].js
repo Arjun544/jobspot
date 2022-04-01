@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 import CompaniesView from "../../../components/CompaniesView";
 import TopBar from "../../../components/TopBar";
-
 import Lottie from "lottie-react";
 import login from "../../../public/login.json";
+import empty from "../../../public/empty.json";
 import { getUserCompany } from "../../../services/company_services";
 
 const MyCompanies = ({ company }) => {
@@ -28,7 +28,18 @@ const MyCompanies = ({ company }) => {
         <span className="text-sm font-semibold tracking-wider md:text-base">
           Your company
         </span>
-        <CompaniesView companies={[company]} />
+        {company === null ? (
+          <div className="flex h-full w-full flex-col items-center pt-20">
+            <div className="flex h-72 w-72 items-center justify-center">
+              <Lottie animationData={empty} autoPlay={true} loop={true} />
+            </div>
+            <span className="font-semibold tracking-widest text-slate-300">
+              No Company found
+            </span>
+          </div>
+        ) : (
+          <CompaniesView companies={[company]} />
+        )}
       </div>
     </div>
   );

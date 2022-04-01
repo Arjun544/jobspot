@@ -12,7 +12,7 @@ export default async function handler(req, res) {
 
     try {
       // Check if email already exists
-      const hasUser = await prisma.user.findUnique({
+      const user = await prisma.user.findUnique({
         where: {
           email,
         },
@@ -28,7 +28,7 @@ export default async function handler(req, res) {
         },
       });
 
-      if (!hasUser) {
+      if (!user) {
         return res.json({
           success: false,
           message: "User not found, please signup",

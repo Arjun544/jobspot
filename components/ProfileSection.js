@@ -106,7 +106,7 @@ const ProfileSection = () => {
       <TiArrowSortedDown className="fill-slate-400" />
       {isOpen && (
         <div
-          className={`absolute top-12 -right-2 z-50 flex max-h-96 w-52 flex-col overflow-y-scroll rounded-2xl bg-white py-4 px-2 shadow`}
+          className={`absolute top-12 -right-2 z-50 flex max-h-96 w-52 flex-col rounded-2xl bg-white py-4 px-2 shadow`}
         >
           {options.map((option, index) => (
             <span onClick={(e) => handleItemClick(e, index)} key={index}>

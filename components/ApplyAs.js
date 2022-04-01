@@ -33,7 +33,7 @@ const ApplyAs = ({
   setCompanyDetails,
 }) => {
   return (
-    <div className="mt-14 flex h-full w-full flex-col">
+    <div className="mt-14 flex h-full w-1/2 flex-col">
       <div className="mt-4 mb-6 flex items-center justify-center gap-6">
         <span className="text-sm font-semibold tracking-wider text-black">
           Apply for job posting as

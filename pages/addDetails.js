@@ -16,7 +16,9 @@ const Apply = () => {
   const { user } = useSelector((state) => state.auth);
   const [isLoading, setIsLoading] = useState(false);
   const [currentTab, setCurrentTab] = useState(1);
-  const [currentStepIndex, setCurrentStepIndex] = useState(0);
+  const [currentStepIndex, setCurrentStepIndex] = useState(
+    user.details === "" ? 0 : 1
+  );
   const [details, setDetails] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
   const [profile, setProfile] = useState("");
@@ -120,7 +122,7 @@ const Apply = () => {
   const handlePrevClick = (e) => {
     e.stopPropagation();
     e.preventDefault();
-    if (currentStepIndex > 0) {
+    if (currentStepIndex > 0 && user.details === "") {
       const previewStepIndex = currentStepIndex - 1;
       setCurrentStepIndex(previewStepIndex);
     }
@@ -131,8 +133,8 @@ const Apply = () => {
       <span className="mb-6 text-center font-semibold tracking-wider text-black">
         Let us know more about you
       </span>
-      <div className="mt-6 flex flex-col">
-        <div className="flex items-center justify-center gap-2">
+      <div className="mt-6 flex w-full flex-col items-center">
+        <div className="flex w-full items-center justify-center gap-2">
           <div
             className={`h-5 w-5 rounded-full ${
               currentStepIndex === 0
@@ -149,7 +151,7 @@ const Apply = () => {
             } `}
           ></div>
         </div>
-        <div className="mt-1 flex items-center justify-center px-10">
+        <div className="mt-1 flex w-full items-center justify-center px-10">
           <span className="text-xs">Your details</span>
           <div className="h-1 w-1/3 rounded-lg bg-transparent"></div>
           <span className="text-xs">Apply as</span>
