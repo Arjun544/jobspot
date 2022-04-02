@@ -52,7 +52,7 @@ model Job {
   schedule    String
   type        String
   level       String
-  salary      String
+  salary      Int
   location    String
   industry    String
   contact     String

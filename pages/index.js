@@ -1,15 +1,12 @@
 import Head from "next/head";
 import TopBar from "../components/TopBar";
 import SearchSection from "../components/SearchSection";
-
 import { getAllJobs } from "../services/job_services";
 import Filters from "../components/Filters";
 import RecommendedJobs from "../components/RecommendedJobs";
 import { useSelector } from "react-redux";
 
 function Home({ jobs }) {
-  const { isAuth, user } = useSelector((state) => state.auth);
-
   return (
     <>
       <Head>

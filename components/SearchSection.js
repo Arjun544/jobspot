@@ -10,23 +10,25 @@ const SearchSection = () => {
   const { isAuth, user } = useSelector((state) => state.auth);
   const { query, setQuery, setFilteredJobs, setSearchedJobs } =
     useContext(AppContext);
-  const [salary, setSalary] = useState(60000);
+  const [salary, setSalary] = useState(30000);
   const [selectedCity, setSelectedCity] = useState(isAuth ? user.city : "");
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    console.log(salary.toString());
-    const { data } = await getSearch(
-      query.toLowerCase(),
-      selectedCity,
-      salary.toString()
-    );
+    const { data } = await getSearch(query.toLowerCase(), selectedCity, salary);
     if (data.success) {
       setFilteredJobs(data.jobs);
       setSearchedJobs(data.jobs);
     } else {
       toast.error(data.message);
     }
+  };
+
+  const handleClear = (e) => {
+    e.preventDefault();
+    setQuery("");
+    setSelectedCity(isAuth ? user.city : "");
+    setSalary(30000);
   };
 
   return (
@@ -51,25 +53,33 @@ const SearchSection = () => {
       <div className="mb-3 flex w-52 flex-col gap-4 md:mb-0">
         <div className="flex items-center justify-between">
           <span className="text-xs font-semibold">The salary</span>
-          <span className="text-xs font-semibold">$ 0 - $ {salary}</span>
+          <span className="text-xs font-semibold"> 0 - {salary} PKR</span>
         </div>
         <input
           value={salary}
           type="range"
-          min="0"
-          max="500000"
+          min={0}
+          max={500000}
           className="h-1 appearance-none rounded-full bg-sky-300"
           onChange={(e) => setSalary(e.target.value)}
         ></input>
       </div>
       {/* Search button */}
       {query.length > 3 && (
-        <button
-          onClick={(e) => handleSearch(e)}
-          className="rounded-xl bg-black px-8 py-3 text-sm font-semibold tracking-widest text-white transition-all duration-500 ease-in-out hover:scale-105"
-        >
-          Search
-        </button>
+        <div className="flex items-center">
+          <button
+            onClick={(e) => handleSearch(e)}
+            className="rounded-xl bg-black px-8 py-3 text-sm font-semibold tracking-widest text-white transition-all duration-500 ease-in-out hover:scale-105"
+          >
+            Search
+          </button>
+          <button
+            onClick={(e) => handleClear(e)}
+            className="rounded-xl  px-4 py-3 text-sm font-semibold tracking-widest text-red-500 hover:text-red-700"
+          >
+            Clear
+          </button>
+        </div>
       )}
     </div>
   );

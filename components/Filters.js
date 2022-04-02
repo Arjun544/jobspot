@@ -15,18 +15,16 @@ const sorts = [
 ];
 
 const Filters = ({ jobs, isAllJobs = false }) => {
-  const {
-    query,
-    filteredJobs,
-    setFilteredJobs,
-    searchedJobs,
-  } = useContext(AppContext);
+  const { query, filteredJobs, setFilteredJobs, searchedJobs } =
+    useContext(AppContext);
   const { isAuth, user } = useSelector((state) => state.auth);
   const [currentSort, setCurrentSort] = useState(null);
-  const [sortCheck, setSortCheck] = useState(null);
+  const [sortCheck, setSortCheck] = useState(0);
   const [schedules, setSchedules] = useState([]);
   const [types, setTypes] = useState([]);
   const [levels, setLevels] = useState([]);
+
+  console.log(sortCheck);
 
   // Returns the jobs where job industry contains any recommended key
   const recommendedJobs = useMemo(() => {
@@ -101,16 +99,20 @@ const Filters = ({ jobs, isAllJobs = false }) => {
 
   const sortedJobs = useMemo(() => {
     let newJobs;
-    switch (currentSort) {
-      case "Newest":
+    switch (sortCheck) {
+      case 0:
+        console.log("0");
         newJobs = filteredJobs.sort((a, b) => a.createdAt - b.createdAt);
-      case "Oldest":
+      case 1:
+        console.log("1");
         newJobs = filteredJobs.sort((a, b) => b.createdAt - a.createdAt);
-      case "By salary":
+      case 2:
+        console.log("2");
         newJobs = filteredJobs.sort((a, b) => a.salary - b.salary);
     }
+    console.log(newJobs);
     return newJobs;
-  }, [currentSort, filteredJobs]);
+  }, [sortCheck, filteredJobs]);
 
   useEffect(() => {
     setFilteredJobs(recommendedJobs);
@@ -121,7 +123,7 @@ const Filters = ({ jobs, isAllJobs = false }) => {
       schedules.length === 0 &&
       types.length === 0 &&
       levels.length === 0 &&
-      currentSort === null
+      sortCheck === 0
     ) {
       setFilteredJobs(recommendedJobs);
     } else if (schedules.length !== 0) {
@@ -130,22 +132,24 @@ const Filters = ({ jobs, isAllJobs = false }) => {
       setFilteredJobs(typesJobs);
     } else if (levels.length !== 0) {
       setFilteredJobs(levelsJobs);
-    } 
+    } else if (sortCheck !== 0) {
+      setFilteredJobs(sortedJobs);
+    }
   } else {
-  if (
-    schedules.length === 0 &&
-    types.length === 0 &&
-    levels.length === 0 &&
-    currentSort === null
-  ) {
-    setFilteredJobs(searchedJobs);
-  } else if (schedules.length !== 0) {
-    setFilteredJobs(schedulesJobs);
-  } else if (types.length !== 0) {
-    setFilteredJobs(typesJobs);
-  } else if (levels.length !== 0) {
-    setFilteredJobs(levelsJobs);
-  }
+    if (
+      schedules.length === 0 &&
+      types.length === 0 &&
+      levels.length === 0 &&
+      currentSort === null
+    ) {
+      setFilteredJobs(searchedJobs);
+    } else if (schedules.length !== 0) {
+      setFilteredJobs(schedulesJobs);
+    } else if (types.length !== 0) {
+      setFilteredJobs(typesJobs);
+    } else if (levels.length !== 0) {
+      setFilteredJobs(levelsJobs);
+    }
   }
 
   return (
