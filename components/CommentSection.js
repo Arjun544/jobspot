@@ -26,7 +26,7 @@ const CommentSection = ({ job }) => {
                 <span className="text-sm capitalize">{review.user.name}</span>
                 {isAuth && review.user.name === user.name && (
                   <span className="rounded-md bg-green-200 py-1 px-4 text-xs tracking-widest text-black shadow-sm">
-                    "Creator"
+                    Creator
                   </span>
                 )}
               </div>
