@@ -200,13 +200,13 @@ const Register = () => {
                 )}
                 onSuccess={async (response) => {
                   try {
-                    isGmailLoading(true);
+                    setGmailLoading(true);
                     const { data } = await gmailSignup(
                       response.profileObj.name,
                       response.profileObj.email,
                       response.profileObj.imageUrl
                     );
-                    isGmailLoading(false);
+                    setGmailLoading(false);
                     if (data.success === false) {
                       return toast.error(data.message);
                     }
@@ -221,7 +221,7 @@ const Register = () => {
                       router.push("/addDetails", { query: true });
                     }
                   } catch (error) {
-                    isGmailLoading(false);
+                    setGmailLoading(false);
                     console.log(error);
                     return toast.error(error.message);
                   }
