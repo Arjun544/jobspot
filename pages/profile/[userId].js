@@ -306,7 +306,7 @@ export default Profile;
 
 export async function getStaticPaths() {
   return {
-    paths: [{ params: { userId: "1" } }],
+    paths: [],
     fallback: true, // false or 'blocking'
   };
 }

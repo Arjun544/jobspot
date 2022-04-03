@@ -292,17 +292,10 @@ const JobDetails = ({ job }) => {
 export default JobDetails;
 
 export async function getStaticPaths() {
-  const { data } = await getAllJobs();
-  const paths = data.jobs.map((job) => {
-    return {
-      params: {
-        jobId: `${job.id}`,
-      },
-    };
-  });
   return {
-    paths,
-    fallback: false, // false or 'blocking'
+    paths: [
+    ],
+    fallback: true, // false or 'blocking'
   };
 }
 
