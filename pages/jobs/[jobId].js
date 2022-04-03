@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import moment from "moment";
 import Lottie from "lottie-react";
 import empty from "../../public/empty.json";
@@ -10,6 +11,7 @@ import { AiFillClockCircle } from "react-icons/ai";
 import { MdOutlineWork, MdEmail, MdGroup, MdReviews } from "react-icons/md";
 import {
   applyJob,
+  deleteJob,
   getJob,
   saveJob,
 } from "../../services/job_services";
@@ -24,6 +26,7 @@ import CommentSection from "../../components/CommentSection";
 import { HiOfficeBuilding } from "react-icons/hi";
 
 const JobDetails = ({ job }) => {
+  const router = useRouter();
   const { isAuth, user } = useSelector((state) => state.auth);
   const [isLoading, setIsLoading] = useState(false);
   const [isApplied, setIsApplied] = useState(
@@ -69,6 +72,19 @@ const JobDetails = ({ job }) => {
       setIsApplied(true);
     } catch (error) {
       setIsLoading(false);
+      console.log(error);
+      toast.error("Something went wrong");
+    }
+  };
+
+  const handleDelete = async (e) => {
+    e.preventDefault();
+
+    try {
+      await deleteJob(job.id, user.id);
+      toast.success("Deleted successfully");
+      router.push("/jobs");
+    } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
     }
@@ -126,7 +142,7 @@ const JobDetails = ({ job }) => {
                   width={50}
                 />
                 <div className="flex flex-col gap-2">
-                  <span className="text-ellipsis text-xs font-semibold capitalize tracking-wider text-slate-500 line-clamp-2">
+                  <span className="text-ellipsis text-lg font-semibold capitalize tracking-wider text-black line-clamp-2">
                     {job.company !== null
                       ? job.company.name
                       : job.createdBy.name}
@@ -173,7 +189,7 @@ const JobDetails = ({ job }) => {
                   </div>
                 </div>
               </div>
-              {/*if its current user job, show applicants else show Save & Apply */}
+              {/*if its current user job, show applicants and Delete else show Save & Apply */}
               {isAuth && job.userId === user.id ? (
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-3">
@@ -189,6 +205,12 @@ const JobDetails = ({ job }) => {
                     className="w-full rounded-xl bg-sky-300 px-12 py-3 text-xs font-medium tracking-wider text-white hover:bg-sky-400 disabled:cursor-not-allowed disabled:bg-slate-400"
                   >
                     Show
+                  </button>
+                  <button
+                    onClick={(e) => handleDelete(e)}
+                    className="w-full rounded-xl bg-red-300 px-12 py-3 text-xs font-medium tracking-wider text-white hover:bg-red-400 disabled:cursor-not-allowed disabled:bg-slate-400"
+                  >
+                    Delete
                   </button>
                 </div>
               ) : (

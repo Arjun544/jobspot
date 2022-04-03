@@ -89,7 +89,7 @@ const CompanyDetails = ({ company }) => {
                   width={50}
                 />
                 <div className="flex flex-col gap-2">
-                  <span className="text-ellipsis text-base font-semibold capitalize tracking-wider text-slate-500 line-clamp-2">
+                  <span className="text-ellipsis text-lg font-semibold capitalize tracking-wider text-black line-clamp-2">
                     {company.name}
                   </span>
 

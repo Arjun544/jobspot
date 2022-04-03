@@ -22,6 +22,9 @@ export const getUserAppliedJobs = async (id) =>
 export const createJob = async (applyingAs, user, job, companyId) =>
   await api.post("/job/create", { applyingAs, user, job, companyId });
 
+export const deleteJob = async (id, user) =>
+  await api.delete("/job/delete", { id, user });
+
 export const applyJob = async (jobId, userId) =>
   await api.post("/job/apply", { jobId, userId });
 
