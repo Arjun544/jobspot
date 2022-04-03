@@ -159,10 +159,7 @@ const Login = () => {
               clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
               buttonText="Continue with Google"
               render={(renderProps) => (
-                <button
-                  onClick={renderProps.onClick}
-                  disabled={renderProps.disabled}
-                >
+                <button onClick={renderProps.onClick} disabled={false}>
                   <div className="flex cursor-pointer items-center gap-2 rounded-xl bg-sky-100 py-2 px-6 hover:bg-sky-200">
                     <FcGoogle fontSize={25} />
                     <span className="text-sm font-semibold tracking-wider text-sky-500">
@@ -194,7 +191,7 @@ const Login = () => {
                   return toast.error(error.message);
                 }
               }}
-              onFailure={(response) => toast.error(response.data.message)}
+              onFailure={(response) => toast.error(response.details)}
               cookiePolicy={"single_host_origin"}
             />
           </div>
