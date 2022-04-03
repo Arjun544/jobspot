@@ -8,6 +8,7 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import { createContext, useState } from "react";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
+import NextNProgress from "nextjs-progressbar";
 
 let persistor = persistStore(store);
 
@@ -37,7 +38,7 @@ function MyApp({ Component, pageProps }) {
             icon={false}
             closeButton={false}
           />
-
+          <NextNProgress />
           <Component {...pageProps} />
         </PersistGate>
       </Provider>

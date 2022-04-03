@@ -24,9 +24,9 @@ const CommentSection = ({ job }) => {
             <div className="flex flex-col">
               <div className="flex items-center gap-20">
                 <span className="text-sm capitalize">{review.user.name}</span>
-                {isAuth && (
+                {isAuth && review.user.name === user.name && (
                   <span className="rounded-md bg-green-200 py-1 px-4 text-xs tracking-widest text-black shadow-sm">
-                    {review.user.name === user.name && "Creator"}
+                    "Creator"
                   </span>
                 )}
               </div>
