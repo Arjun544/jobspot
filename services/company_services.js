@@ -17,8 +17,8 @@ export const getCompany = async (id) => await api.get(`/company/${id}`);
 export const getUserCompany = async (id) =>
   await api.post("/company/userCompany", { userId: id });
 
-export const getUserSavedCompanies = async (id) =>
-  await api.post("/company/savedCompanies", { id });
+export const getUserSavedCompanies = async (userId) =>
+  await api.post("/company/savedCompanies", { userId });
 
 export const getAllCompanies = async () => await api.get("/company/get");
 

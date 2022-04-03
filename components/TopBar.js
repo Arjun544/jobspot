@@ -52,7 +52,7 @@ const TopBar = () => {
           <Link href={`/mySaved/${user.id}`} passHref>
             <span
               className={`cursor-pointer rounded-xl py-2 px-4 ${
-                router.pathname === "/mySaved" ? "text-sky-500" : "text-black"
+                router.pathname === "/mySaved/" ? "text-sky-500" : "text-black"
               } text-xs font-semibold tracking-wider hover:bg-slate-200 md:text-sm`}
             >
               My Saved

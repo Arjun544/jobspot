@@ -16,8 +16,8 @@ export const getJob = async (id) => await api.get(`/job/${id}`);
 export const getUserJobs = async (id) =>
   await api.post("/job/userJobs", { userId: id });
 
-export const getUserSavedJobs = async (id) =>
-  await api.post("/job/savedJobs", { id });
+export const getUserSavedJobs = async (userId) =>
+  await api.post("/job/savedJobs", { userId });
 
   export const getUserAppliedJobs = async (id) =>
     await api.post("/job/applied", { id });
