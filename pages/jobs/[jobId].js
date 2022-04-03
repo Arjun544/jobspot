@@ -33,7 +33,11 @@ const JobDetails = ({ job }) => {
     isAuth ? job.applicants.map((item) => item.id).includes(user?.id) : false
   );
   const [isSave, setIsSave] = useState(
-    isAuth ? job.saveBy.map((item) => item.id).includes(user?.id) : false
+    isAuth
+      ? job.saveBy.map((item) => item.id).includes(user?.id)
+        ? true
+        : false
+      : false
   );
   const [isDialogueOpen, setIsDialogueOpen] = useState(false);
   const [isApplicantsOpen, setIsApplicantsOpen] = useState(false);
