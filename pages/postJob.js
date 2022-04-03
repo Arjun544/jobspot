@@ -45,7 +45,7 @@ const PostJob = () => {
       schedule: selectedSchedule,
       type: selectedType,
       level: selectedLevel,
-      salary,
+      salary: +salary,
       location: city,
       industry,
       contact,
