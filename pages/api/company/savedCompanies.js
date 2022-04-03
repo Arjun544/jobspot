@@ -17,7 +17,7 @@ export default nextConnect({
       where: {
         saveBy: {
           some: {
-            id: userId,
+            id: +userId,
           },
         },
       },
