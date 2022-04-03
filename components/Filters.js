@@ -60,7 +60,7 @@ const Filters = ({ jobs, isAllJobs = false }) => {
         .includes(true)
     );
     return newJobs;
-  }, [recommendedJobs, schedules]);
+  }, [recommendedJobs, filteredJobs, schedules]);
 
   // Returns the jobs where job type contains any type type
   const typesJobs = useMemo(() => {
@@ -70,7 +70,7 @@ const Filters = ({ jobs, isAllJobs = false }) => {
         .includes(true)
     );
     return newJobs;
-  }, [recommendedJobs, types]);
+  }, [recommendedJobs, filteredJobs, types]);
 
   // Returns the jobs where job type contains any type type
   const levelsJobs = useMemo(() => {
@@ -80,11 +80,11 @@ const Filters = ({ jobs, isAllJobs = false }) => {
         .includes(true)
     );
     return newJobs;
-  }, [recommendedJobs, levels]);
+  }, [recommendedJobs, filteredJobs, levels]);
 
   useEffect(() => {
     setFilteredJobs(recommendedJobs);
-  }, []);
+  }, [recommendedJobs, setFilteredJobs]);
 
   if (query === "") {
     if (schedules.length === 0 && types.length === 0 && levels.length === 0) {
