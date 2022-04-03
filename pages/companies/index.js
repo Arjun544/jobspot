@@ -47,11 +47,9 @@ function Companies({ companies }) {
           ) : (
             <div className="mt-5 grid h-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
               {isAuth
-                ? companies
-                    .filter((item) => item.userId !== user.id)
-                    .map((company) => (
-                      <CompanyGridCard key={company.id} company={company} />
-                    ))
+                ? companies.map((company) => (
+                    <CompanyGridCard key={company.id} company={company} />
+                  ))
                 : companies.map((company) => (
                     <CompanyGridCard key={company.id} company={company} />
                   ))}
