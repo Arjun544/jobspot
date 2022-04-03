@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
+import Head from "next/head";
 import { useSelector } from "react-redux";
 import JobsView from "../../../components/JobsView";
 import TopBar from "../../../components/TopBar";
@@ -10,6 +11,15 @@ const MyAppliedJobs = ({ jobs }) => {
   const { isAuth } = useSelector((state) => state.auth);
 
   return (
+    <>
+    <Head>
+        <title>My Applied Jobs - Jobspot</title>
+        <meta
+          name="Jobspot is a job listing platform, where you can create jobs and hire people as individual or as a company."
+          content="Jobspot is a job listing platform, where you can create jobs and hire people as individual or as a company."
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
     <div className="h-screen w-screen bg-white">
       <TopBar />
       {/* If user not login */}
@@ -30,6 +40,7 @@ const MyAppliedJobs = ({ jobs }) => {
         <JobsView jobs={jobs} />
       </div>
     </div>
+</>
   );
 };
 

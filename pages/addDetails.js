@@ -9,6 +9,7 @@ import { updateUser } from "../services/user_services";
 import { createCompany } from "../services/company_services";
 import { useDispatch, useSelector } from "react-redux";
 import { setAuth } from "../redux/reducers/authSlice";
+import Head from "next/head";
 
 const Apply = () => {
   const router = useRouter();
@@ -129,88 +130,98 @@ const Apply = () => {
   };
 
   return (
-    <div className="flex h-full w-full flex-col bg-white px-10 py-6 md:px-20">
-      <span className="mb-6 text-center font-semibold tracking-wider text-black">
-        Let us know more about you
-      </span>
-      <div className="mt-6 flex w-full flex-col items-center">
-        <div className="flex w-full items-center justify-center gap-2">
-          <div
-            className={`h-5 w-5 rounded-full ${
-              currentStepIndex === 0
-                ? "border-2 border-black bg-green-400"
-                : "bg-sky-200"
-            } `}
-          ></div>
-          <div className="h-1 w-1/3 rounded-lg bg-sky-200"></div>
-          <div
-            className={`h-5 w-5 rounded-full ${
-              currentStepIndex === 1
-                ? "border-2 border-black bg-green-400"
-                : "bg-sky-200"
-            } `}
-          ></div>
-        </div>
-        <div className="mt-1 flex w-full items-center justify-center px-10">
-          <span className="text-xs">Your details</span>
-          <div className="h-1 w-1/3 rounded-lg bg-transparent"></div>
-          <span className="text-xs">Apply as</span>
-        </div>
-        {currentStepIndex === 0 ? (
-          <YourDetails
-            setDetails={setDetails}
-            details={details}
-            setSelectedCity={setSelectedCity}
-            selectedCity={selectedCity}
-            profile={profile}
-            setProfile={setProfile}
-            setCv={setCv}
-            cv={cv}
-          />
-        ) : (
-          <ApplyAs
-            currentTab={currentTab}
-            setCurrentTab={setCurrentTab}
-            companyName={companyName}
-            setCompanyName={setCompanyName}
-            companyWebsite={companyWebsite}
-            setCompanyWebsite={setCompanyWebsite}
-            companyImage={companyImage}
-            setCompanyImage={setCompanyImage}
-            companySize={companySize}
-            setCompanySize={setCompanySize}
-            companyIndustry={companyIndustry}
-            setCompanyIndustry={setCompanyIndustry}
-            companyCity={companyCity}
-            companyContact={companyContact}
-            setCompanyContact={setCompanyContact}
-            setCompanyCity={setCompanyCity}
-            companyDetails={companyDetails}
-            setCompanyDetails={setCompanyDetails}
-          />
-        )}
-        {isLoading ? (
-          <div className="flex items-center justify-center pt-8">
-            <ScaleLoader color="#00BFFF" loading={isLoading} />
+    <>
+      <Head>
+        <title>AddDetails - Jobspot</title>
+        <meta
+          name="Jobspot is a job listing platform, where you can create jobs and hire people as individual or as a company."
+          content="Jobspot is a job listing platform, where you can create jobs and hire people as individual or as a company."
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <div className="flex h-full w-full flex-col bg-white px-10 py-6 md:px-20">
+        <span className="mb-6 text-center font-semibold tracking-wider text-black">
+          Let us know more about you
+        </span>
+        <div className="mt-6 flex w-full flex-col items-center">
+          <div className="flex w-full items-center justify-center gap-2">
+            <div
+              className={`h-5 w-5 rounded-full ${
+                currentStepIndex === 0
+                  ? "border-2 border-black bg-green-400"
+                  : "bg-sky-200"
+              } `}
+            ></div>
+            <div className="h-1 w-1/3 rounded-lg bg-sky-200"></div>
+            <div
+              className={`h-5 w-5 rounded-full ${
+                currentStepIndex === 1
+                  ? "border-2 border-black bg-green-400"
+                  : "bg-sky-200"
+              } `}
+            ></div>
           </div>
-        ) : (
-          <div className="flex items-center justify-center gap-4 py-8">
-            <button
-              onClick={(e) => handlePrevClick(e)}
-              className="rounded-lg bg-slate-400 py-2 px-4 text-sm tracking-wider text-white hover:bg-slate-500"
-            >
-              Previous
-            </button>
-            <button
-              onClick={(e) => handleNextClick(e)}
-              className="rounded-lg bg-green-400 py-2 px-7 text-sm tracking-wider text-white hover:bg-green-500"
-            >
-              {currentStepIndex === 0 ? "Next" : "Save"}
-            </button>
+          <div className="mt-1 flex w-full items-center justify-center px-10">
+            <span className="text-xs">Your details</span>
+            <div className="h-1 w-1/3 rounded-lg bg-transparent"></div>
+            <span className="text-xs">Apply as</span>
           </div>
-        )}
+          {currentStepIndex === 0 ? (
+            <YourDetails
+              setDetails={setDetails}
+              details={details}
+              setSelectedCity={setSelectedCity}
+              selectedCity={selectedCity}
+              profile={profile}
+              setProfile={setProfile}
+              setCv={setCv}
+              cv={cv}
+            />
+          ) : (
+            <ApplyAs
+              currentTab={currentTab}
+              setCurrentTab={setCurrentTab}
+              companyName={companyName}
+              setCompanyName={setCompanyName}
+              companyWebsite={companyWebsite}
+              setCompanyWebsite={setCompanyWebsite}
+              companyImage={companyImage}
+              setCompanyImage={setCompanyImage}
+              companySize={companySize}
+              setCompanySize={setCompanySize}
+              companyIndustry={companyIndustry}
+              setCompanyIndustry={setCompanyIndustry}
+              companyCity={companyCity}
+              companyContact={companyContact}
+              setCompanyContact={setCompanyContact}
+              setCompanyCity={setCompanyCity}
+              companyDetails={companyDetails}
+              setCompanyDetails={setCompanyDetails}
+            />
+          )}
+          {isLoading ? (
+            <div className="flex items-center justify-center pt-8">
+              <ScaleLoader color="#00BFFF" loading={isLoading} />
+            </div>
+          ) : (
+            <div className="flex items-center justify-center gap-4 py-8">
+              <button
+                onClick={(e) => handlePrevClick(e)}
+                className="rounded-lg bg-slate-400 py-2 px-4 text-sm tracking-wider text-white hover:bg-slate-500"
+              >
+                Previous
+              </button>
+              <button
+                onClick={(e) => handleNextClick(e)}
+                className="rounded-lg bg-green-400 py-2 px-7 text-sm tracking-wider text-white hover:bg-green-500"
+              >
+                {currentStepIndex === 0 ? "Next" : "Save"}
+              </button>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

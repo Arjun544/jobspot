@@ -3,7 +3,6 @@ import TopBar from "../../components/TopBar";
 import SearchSection from "../../components/SearchSection";
 import { getAllJobs } from "../../services/job_services";
 import Filters from "../../components/Filters";
-import { useRouter } from "next/router";
 import RecommendedJobs from "../../components/RecommendedJobs";
 
 function Jobs({ jobs }) {
