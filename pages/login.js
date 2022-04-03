@@ -38,7 +38,7 @@ const Login = () => {
           })
         );
 
-        data.user.companyId === null && data.user.details === ""
+        data.user.companyId === null && data.user.details === undefined
           ? router.push("/addDetails", { query: true })
           : router.back();
         setEmail("");
@@ -47,7 +47,7 @@ const Login = () => {
     } catch (error) {
       setIsLoading(false);
       console.log(error);
-      return toast.error(error.message);
+      return toast.error('Something went wrong');
     }
   };
 

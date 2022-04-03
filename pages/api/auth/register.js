@@ -82,6 +82,7 @@ export default async function handler(req, res) {
           type: user.type,
           city: user.city,
           companyId: user.companyId,
+          details: user.details,
         },
         isAuth: true,
       });

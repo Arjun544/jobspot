@@ -2,29 +2,14 @@ import React, { useContext, useMemo, useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { AppContext } from "../pages/_app";
 import CustomCheckbox from "./CustomCheckbox";
-import CustomSort from "./CustomSort";
-
-const sorts = [
-  "Newest",
-  "Oldest",
-  "By salary",
-  "By reviews",
-  "By applicants",
-  "Weekly",
-  "Monthly",
-];
 
 const Filters = ({ jobs, isAllJobs = false }) => {
   const { query, filteredJobs, setFilteredJobs, searchedJobs } =
     useContext(AppContext);
   const { isAuth, user } = useSelector((state) => state.auth);
-  const [currentSort, setCurrentSort] = useState(null);
-  const [sortCheck, setSortCheck] = useState(0);
   const [schedules, setSchedules] = useState([]);
   const [types, setTypes] = useState([]);
   const [levels, setLevels] = useState([]);
-
-  console.log(sortCheck);
 
   // Returns the jobs where job industry contains any recommended key
   const recommendedJobs = useMemo(() => {
@@ -54,7 +39,7 @@ const Filters = ({ jobs, isAllJobs = false }) => {
             );
         break;
       case true:
-        // data = isAuth ? jobs.filter((job) => job.userId !== user.id) : jobs;
+        data = isAuth ? jobs.filter((job) => job.userId !== user.id) : jobs;
         data = jobs;
         break;
       default:
@@ -97,34 +82,12 @@ const Filters = ({ jobs, isAllJobs = false }) => {
     return newJobs;
   }, [recommendedJobs, levels]);
 
-  const sortedJobs = useMemo(() => {
-    let newJobs;
-    switch (sortCheck) {
-      case 0:
-        console.log("0");
-        newJobs = filteredJobs.sort((a, b) => a.createdAt - b.createdAt);
-      case 1:
-        console.log("1");
-        newJobs = filteredJobs.sort((a, b) => b.createdAt - a.createdAt);
-      case 2:
-        console.log("2");
-        newJobs = filteredJobs.sort((a, b) => a.salary - b.salary);
-    }
-    console.log(newJobs);
-    return newJobs;
-  }, [sortCheck, filteredJobs]);
-
   useEffect(() => {
     setFilteredJobs(recommendedJobs);
   }, []);
 
   if (query === "") {
-    if (
-      schedules.length === 0 &&
-      types.length === 0 &&
-      levels.length === 0 &&
-      sortCheck === 0
-    ) {
+    if (schedules.length === 0 && types.length === 0 && levels.length === 0) {
       setFilteredJobs(recommendedJobs);
     } else if (schedules.length !== 0) {
       setFilteredJobs(schedulesJobs);
@@ -132,16 +95,9 @@ const Filters = ({ jobs, isAllJobs = false }) => {
       setFilteredJobs(typesJobs);
     } else if (levels.length !== 0) {
       setFilteredJobs(levelsJobs);
-    } else if (sortCheck !== 0) {
-      setFilteredJobs(sortedJobs);
     }
   } else {
-    if (
-      schedules.length === 0 &&
-      types.length === 0 &&
-      levels.length === 0 &&
-      currentSort === null
-    ) {
+    if (schedules.length === 0 && types.length === 0 && levels.length === 0) {
       setFilteredJobs(searchedJobs);
     } else if (schedules.length !== 0) {
       setFilteredJobs(schedulesJobs);
@@ -157,22 +113,7 @@ const Filters = ({ jobs, isAllJobs = false }) => {
       <span className="text-sm font-semibold tracking-wider md:text-base">
         Filters
       </span>
-      {/* Sort */}
-      <div className="flex flex-col gap-3">
-        <span className="mb-2 text-xs font-semibold tracking-wider text-slate-400">
-          Sort
-        </span>
-        {sorts.map((sort, index) => (
-          <CustomSort
-            key={index}
-            index={index}
-            sort={sort}
-            sortCheck={sortCheck}
-            setSortCheck={setSortCheck}
-            setCurrentSort={setCurrentSort}
-          />
-        ))}
-      </div>
+
       {/* Schedule */}
       <div className="flex flex-col gap-3">
         <span className="mb-2 text-xs font-semibold tracking-wider text-slate-400">

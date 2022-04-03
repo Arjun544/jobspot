@@ -15,8 +15,6 @@ export default nextConnect({
   const province = location.split(",")[1];
   const country = location.split(",")[2];
 
-  console.log([+salary].filter((n) => n < salary));
-
   try {
     const jobs = await prisma.job.findMany({
       where: {
@@ -27,7 +25,7 @@ export default nextConnect({
           search: `${city} & ${province} & ${country}`,
         },
         salary: {
-          search: salary,
+          gte: +salary,
         },
       },
       orderBy: {

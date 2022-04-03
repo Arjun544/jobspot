@@ -10,7 +10,6 @@ export default nextConnect({
     res.status(404).end(`${req.method} not allowed`);
   },
 })
-  .use(auth_middleware(req, res, next))
   .post(async (req, res) => {
     const { userId, comment, companyId, jobId } = req.body;
 
