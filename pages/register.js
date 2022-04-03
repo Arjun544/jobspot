@@ -176,50 +176,59 @@ const Register = () => {
           </form>
           {/* Social logins */}
           <div className="flex items-center justify-center gap-4">
-            <GoogleLogin
-              clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
-              buttonText="Signup with Google"
-              render={(renderProps) => (
-                <button
-                  onClick={renderProps.onClick}
-                  disabled={renderProps.disabled}
-                >
-                  <div className="flex cursor-pointer items-center gap-2 rounded-xl bg-sky-100 py-2 px-6 hover:bg-sky-200">
-                    <FcGoogle fontSize={25} />
-                    <span className="text-sm font-semibold tracking-wider text-sky-500">
-                      Signup with Google
-                    </span>
-                  </div>
-                </button>
-              )}
-              onSuccess={async (response) => {
-                try {
-                  const { data } = await gmailSignup(
-                    response.profileObj.name,
-                    response.profileObj.email,
-                    response.profileObj.imageUrl
-                  );
-                  if (data.success === false) {
-                    return toast.error(data.message);
-                  }
-                  // Add user to redux
-                  if (data.success === true) {
-                    dispatch(
-                      setAuth({
-                        auth: data.auth,
-                        user: data.user,
-                      })
+            {isLoading ? (
+              <div className="mt-6 flex items-center justify-center">
+                <ScaleLoader color="#00BFFF" loading={isLoading} />
+              </div>
+            ) : (
+              <GoogleLogin
+                clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
+                buttonText="Signup with Google"
+                render={(renderProps) => (
+                  <button
+                    onClick={renderProps.onClick}
+                    disabled={renderProps.disabled}
+                  >
+                    <div className="flex cursor-pointer items-center gap-2 rounded-xl bg-sky-100 py-2 px-6 hover:bg-sky-200">
+                      <FcGoogle fontSize={25} />
+                      <span className="text-sm font-semibold tracking-wider text-sky-500">
+                        Signup with Google
+                      </span>
+                    </div>
+                  </button>
+                )}
+                onSuccess={async (response) => {
+                  try {
+                    setIsLoading(true);
+                    const { data } = await gmailSignup(
+                      response.profileObj.name,
+                      response.profileObj.email,
+                      response.profileObj.imageUrl
                     );
-                    router.push("/addDetails", { query: true });
+                    setIsLoading(false);
+                    if (data.success === false) {
+                      return toast.error(data.message);
+                    }
+                    // Add user to redux
+                    if (data.success === true) {
+                      dispatch(
+                        setAuth({
+                          auth: data.auth,
+                          user: data.user,
+                        })
+                      );
+                      router.push("/addDetails", { query: true });
+                    }
+                  } catch (error) {
+                    setIsLoading(false);
+                    console.log(error);
+                    return toast.error(error.message);
                   }
-                } catch (error) {
-                  console.log(error);
-                  return toast.error(error.message);
-                }
-              }}
-              onFailure={(response) => toast.error("Something went wrong")}
-              cookiePolicy={"single_host_origin"}
-            />
+                }}
+                onFailure={(response) => toast.error("Something went wrong")}
+                cookiePolicy={"single_host_origin"}
+              />
+            )}
           </div>
           <div className="flex items-center justify-center gap-1">
             <span className="text-sm font-medium tracking-wider text-black">

@@ -155,45 +155,56 @@ const Login = () => {
           </form>
           {/* Social logins */}
           <div className="flex items-center justify-center gap-4">
-            <GoogleLogin
-              clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
-              buttonText="Continue with Google"
-              render={(renderProps) => (
-                <button onClick={renderProps.onClick} disabled={false}>
-                  <div className="flex cursor-pointer items-center gap-2 rounded-xl bg-sky-100 py-2 px-6 hover:bg-sky-200">
-                    <FcGoogle fontSize={25} />
-                    <span className="text-sm font-semibold tracking-wider text-sky-500">
-                      Login with Google
-                    </span>
-                  </div>
-                </button>
-              )}
-              onSuccess={async (response) => {
-                try {
-                  const { data } = await gmailLogin(response.profileObj.email);
-                  if (data.success === false) {
-                    return toast.error(data.message);
-                  }
-                  // Add user to redux
-                  if (data.success === true) {
-                    dispatch(
-                      setAuth({
-                        auth: data.auth,
-                        user: data.user,
-                      })
+            {isLoading ? (
+              <div className="mt-6 flex items-center justify-center">
+                <ScaleLoader color="#00BFFF" loading={isLoading} />
+              </div>
+            ) : (
+              <GoogleLogin
+                clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
+                buttonText="Continue with Google"
+                render={(renderProps) => (
+                  <button onClick={renderProps.onClick} disabled={false}>
+                    <div className="flex cursor-pointer items-center gap-2 rounded-xl bg-sky-100 py-2 px-6 hover:bg-sky-200">
+                      <FcGoogle fontSize={25} />
+                      <span className="text-sm font-semibold tracking-wider text-sky-500">
+                        Login with Google
+                      </span>
+                    </div>
+                  </button>
+                )}
+                onSuccess={async (response) => {
+                  try {
+                    isLoading = true;
+                    const { data } = await gmailLogin(
+                      response.profileObj.email
                     );
-                    data.user.companyId === null
-                      ? router.push("/addDetails", { query: true })
-                      : router.push("/");
+                    setIsLoading(false);
+                    if (data.success === false) {
+                      return toast.error(data.message);
+                    }
+                    // Add user to redux
+                    if (data.success === true) {
+                      dispatch(
+                        setAuth({
+                          auth: data.auth,
+                          user: data.user,
+                        })
+                      );
+                      data.user.companyId === null
+                        ? router.push("/addDetails", { query: true })
+                        : router.push("/");
+                    }
+                  } catch (error) {
+                    setIsLoading(false);
+                    console.log(error);
+                    return toast.error(error.message);
                   }
-                } catch (error) {
-                  console.log(error);
-                  return toast.error(error.message);
-                }
-              }}
-              onFailure={(response) => toast.error(response.details)}
-              cookiePolicy={"single_host_origin"}
-            />
+                }}
+                onFailure={(response) => toast.error(response.details)}
+                cookiePolicy={"single_host_origin"}
+              />
+            )}
           </div>
           <div className="flex items-center justify-center gap-1">
             <span className="text-sm font-medium tracking-wider text-black">
