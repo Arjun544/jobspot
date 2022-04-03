@@ -49,9 +49,7 @@ const JobListCard = ({ index, job, setSelectedListJob }) => {
           {job.location}
         </span>
         <p className="text-ellipsis text-sm text-slate-400 line-clamp-3">
-          sdjfsdfsfhsdhf dkshdkfs
-          sdfksdfsksdsfjndfsnfsfnksndfsdfjsdfnslsndfsddsfnlsndlsldfsdfslndfsdfnsllllllsdnlsdfnlslllsndfsldfsldfslflls
-          sdfsnflsflsdjfsdfosifhoshfoshf sfhsofhsofshfosh k{job.description}
+          {job.description}
         </p>
       </div>
 
@@ -97,9 +95,7 @@ const JobListCard = ({ index, job, setSelectedListJob }) => {
           {job.location}
         </span>
         <p className="text-ellipsis text-sm text-slate-400 line-clamp-3">
-          sdjfsdfsfhsdhf dkshdkfs
-          sdfksdfsksdsfjndfsnfsfnksndfsdfjsdfnslsndfsddsfnlsndlsldfsdfslndfsdfnsllllllsdnlsdfnlslllsndfsldfsldfslflls
-          sdfsnflsflsdjfsdfosifhoshfoshf sfhsofhsofshfosh k{job.description}
+          {job.description}
         </p>
       </div>
     </>

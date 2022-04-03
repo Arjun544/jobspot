@@ -213,18 +213,7 @@ const RecommendedJobs = ({ isAllJobs = false }) => {
                 Description
               </span>
               <p className="text-ellipsis text-sm text-slate-400">
-                {filteredJobs[selectedListJob].description} Lorem ipsum dolor
-                sit amet consectetur adipisicing elit. Consequuntur repudiandae
-                consequatur, assumenda necessitatibus voluptatum ex perferendis.
-                Numquam corporis autem deleniti sit minima. Delectus, libero non
-                accusamus autem ut officia ea? Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Ad impedit doloremque dicta dolor
-                illo iusto qui earum dolore! Quaerat cum natus quisquam
-                aspernatur, nihil consequatur ducimus debitis animi fuga
-                eveniet? Lorem ipsum dolor sit amet consectetur adipisicing
-                elit. Fuga molestiae adipisci voluptatibus eos vero facere unde
-                error quod, minus sint possimus facilis eum esse cumque labore
-                atque, officiis praesentium commodi.
+                {filteredJobs[selectedListJob].description}
               </p>
             </div>
             <div className="flex flex-col gap-4">

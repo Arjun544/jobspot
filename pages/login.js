@@ -194,7 +194,7 @@ const Login = () => {
                   return toast.error(error.message);
                 }
               }}
-              onFailure={(response) => toast.error("Something went wrong")}
+              onFailure={(response) => toast.error(response.data.message)}
               cookiePolicy={"single_host_origin"}
             />
           </div>

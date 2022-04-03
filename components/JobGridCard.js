@@ -47,9 +47,7 @@ const JobGridCard = ({ job }) => {
         {job.location}
       </span>
       <p className="text-ellipsis text-sm text-slate-400 line-clamp-3">
-        sdjfsdfsfhsdhf dkshdkfs
-        sdfksdfsksdsfjndfsnfsfnksndfsdfjsdfnslsndfsddsfnlsndlsldfsdfslndfsdfnsllllllsdnlsdfnlslllsndfsldfsldfslflls
-        sdfsnflsflsdjfsdfosifhoshfoshf sfhsofhsofshfosh k{job.description}
+        {job.description}
       </p>
     </div>
   );
