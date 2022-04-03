@@ -10,8 +10,9 @@ export default nextConnect({
   onNoMatch: (req, res) => {
     res.status(404).end(`${req.method} not allowed`);
   },
-}).delete(async (req, res) => {
-  const { id, userId } = req.body;
+}).post(async (req, res) => {
+    const { id, userId } = req.body;
+    console.log(req.body);
 
   try {
     await prisma.job.delete({

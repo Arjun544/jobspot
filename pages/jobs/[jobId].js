@@ -81,9 +81,11 @@ const JobDetails = ({ job }) => {
     e.preventDefault();
 
     try {
+      setIsLoading(true);
       await deleteJob(job.id, user.id);
+      setIsLoading(false);
       toast.success("Deleted successfully");
-      router.push("/jobs");
+      router.back();
     } catch (error) {
       console.log(error);
       toast.error("Something went wrong");
@@ -206,12 +208,18 @@ const JobDetails = ({ job }) => {
                   >
                     Show
                   </button>
-                  <button
-                    onClick={(e) => handleDelete(e)}
-                    className="w-full rounded-xl bg-red-300 px-12 py-3 text-xs font-medium tracking-wider text-white hover:bg-red-400 disabled:cursor-not-allowed disabled:bg-slate-400"
-                  >
-                    Delete
-                  </button>
+                  {isLoading ? (
+                    <div className="flex w-32 items-center">
+                      <ScaleLoader color="#00BFFF" loading={isLoading} />
+                    </div>
+                  ) : (
+                    <button
+                      onClick={(e) => handleDelete(e)}
+                      className="w-full rounded-xl bg-red-300 px-12 py-3 text-xs font-medium tracking-wider text-white hover:bg-red-400 disabled:cursor-not-allowed disabled:bg-slate-400"
+                    >
+                      Delete
+                    </button>
+                  )}
                 </div>
               ) : (
                 <div className="flex items-center gap-4">
