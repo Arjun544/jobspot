@@ -34,7 +34,7 @@ function MyApp({ Component, pageProps }) {
         <PersistGate loading={null} persistor={persistor}>
           <ToastContainer
             position="top-center"
-            autoClose={3000}
+            autoClose={1000}
             icon={false}
             closeButton={false}
           />

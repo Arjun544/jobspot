@@ -21,6 +21,16 @@ export default nextConnect({
             user: true,
           },
         },
+        savedJobs: {
+          include: {
+            createdBy: true,
+          },
+        },
+        savedCompanies: {
+          include: {
+            user: true,
+          },
+        },
         jobs: true,
         company: true,
       },

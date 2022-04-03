@@ -38,6 +38,9 @@ export default nextConnect({
                 },
               },
             },
+            select: {
+              createdBy: true,
+            },
           });
     return res.status(200).json({
       success: true,

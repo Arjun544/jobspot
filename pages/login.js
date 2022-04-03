@@ -17,6 +17,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
+  const [isGmailLoading, setIsGmailLoading] = useState(false);
   const [isPassHidden, setIspasshidden] = useState(true);
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
@@ -155,9 +156,9 @@ const Login = () => {
           </form>
           {/* Social logins */}
           <div className="flex items-center justify-center gap-4">
-            {isLoading ? (
+            {isGmailLoading ? (
               <div className="mt-6 flex items-center justify-center">
-                <ScaleLoader color="#00BFFF" loading={isLoading} />
+                <ScaleLoader color="#00BFFF" loading={isGmailLoading} />
               </div>
             ) : (
               <GoogleLogin
@@ -175,11 +176,11 @@ const Login = () => {
                 )}
                 onSuccess={async (response) => {
                   try {
-                    setIsLoading(true);
+                    setIsGmailLoading(true);
                     const { data } = await gmailLogin(
                       response.profileObj.email
                     );
-                    setIsLoading(false);
+                    setIsGmailLoading(false);
                     if (data.success === false) {
                       return toast.error(data.message);
                     }
@@ -196,7 +197,7 @@ const Login = () => {
                         : router.push("/");
                     }
                   } catch (error) {
-                    setIsLoading(false);
+                    setIsGmailLoading(false);
                     console.log(error);
                     return toast.error(error.message);
                   }
