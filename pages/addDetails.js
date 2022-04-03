@@ -50,17 +50,25 @@ const Apply = () => {
       } else {
         try {
           setIsLoading(true);
-          const data = {
+          const newUser = {
             email: user.email,
             details,
             city: selectedCity,
             profile: profile[0].getFileEncodeDataURL(),
             cv: cv[0].getFileEncodeDataURL(),
           };
-          await updateUser(data);
           setIsLoading(false);
-          const nextStepIndex = currentStepIndex + 1;
-          setCurrentStepIndex(nextStepIndex);
+          const { data } = await updateUser(newUser);
+          if (data.success === true) {
+            dispatch(
+              setAuth({
+                auth: data.auth,
+                user: data.user,
+              })
+            );
+            const nextStepIndex = currentStepIndex + 1;
+            setCurrentStepIndex(nextStepIndex);
+          }
         } catch (error) {
           setIsLoading(false);
           console.log(error);

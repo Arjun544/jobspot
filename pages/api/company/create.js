@@ -48,6 +48,17 @@ export default nextConnect({
       data: {
         companyId: newCompany.id,
       },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        password: true,
+        details: true,
+        profile: true,
+        type: true,
+        city: true,
+        companyId: true,
+      },
     });
 
     return res.json({

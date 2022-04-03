@@ -37,7 +37,7 @@ export default nextConnect({
     } catch (error) {
       console.log(error);
     }
-    await prisma.user.update({
+    const newUser = await prisma.user.update({
       where: {
         email: user.email,
       },
@@ -49,11 +49,32 @@ export default nextConnect({
         cv: cvResult.secure_url,
         cvId: cvResult.public_id,
       },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        password: true,
+        details: true,
+        profile: true,
+        type: true,
+        city: true,
+        companyId: true,
+      },
     });
 
     return res.json({
       success: true,
-      message: "User updated successfully",
+      user: {
+        id: newUser.id,
+        name: newUser.name,
+        email: newUser.email,
+        profile: newUser.profile,
+        details: newUser.details,
+        type: newUser.type,
+        city: newUser.city,
+        companyId: newUser.companyId,
+      },
+      isAuth: true,
     });
   });
 
