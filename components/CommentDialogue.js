@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import React, { useRef } from "react";
 import { MdClose } from "react-icons/md";
 import { useSelector } from "react-redux";
@@ -14,6 +15,7 @@ const CommentDialogue = ({
   setComment,
   setIsDialogueOpen,
 }) => {
+  const router = useRouter();
   const { isAuth, user } = useSelector((state) => state.auth);
   const ref = useRef();
   const handleClickOutside = () => {
@@ -38,7 +40,7 @@ const CommentDialogue = ({
       setIsDialogueOpen(false);
       setComment("");
       toast.success("Comment added successfully");
-      window.location.reload(false);
+      router.push(`/jobs/${jobId}`);
     } catch (error) {
       setIsLoading(false);
       console.log(error);
