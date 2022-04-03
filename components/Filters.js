@@ -60,7 +60,8 @@ const Filters = ({ jobs, isAllJobs = false }) => {
         .includes(true)
     );
     return newJobs;
-  }, [recommendedJobs, filteredJobs, schedules]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [recommendedJobs, schedules]);
 
   // Returns the jobs where job type contains any type type
   const typesJobs = useMemo(() => {
@@ -70,7 +71,8 @@ const Filters = ({ jobs, isAllJobs = false }) => {
         .includes(true)
     );
     return newJobs;
-  }, [recommendedJobs, filteredJobs, types]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [recommendedJobs, types]);
 
   // Returns the jobs where job type contains any type type
   const levelsJobs = useMemo(() => {
@@ -80,11 +82,13 @@ const Filters = ({ jobs, isAllJobs = false }) => {
         .includes(true)
     );
     return newJobs;
-  }, [recommendedJobs, filteredJobs, levels]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [recommendedJobs, levels]);
 
   useEffect(() => {
     setFilteredJobs(recommendedJobs);
-  }, [recommendedJobs, setFilteredJobs]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   if (query === "") {
     if (schedules.length === 0 && types.length === 0 && levels.length === 0) {
