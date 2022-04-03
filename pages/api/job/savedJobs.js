@@ -13,7 +13,7 @@ export default nextConnect({
   // Get All jobs saved by user
   const { userId } = req.body;
   try {
-    const jobs = await prisma.job.findMany({
+    const jobs = await prisma.user.findMany({
       where: {
         saveBy: {
           some: {

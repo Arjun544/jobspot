@@ -6,8 +6,7 @@ import JobsView from "../../components/JobsView";
 import TopBar from "../../components/TopBar";
 import Lottie from "lottie-react";
 import login from "../../public/login.json";
-import { getUserSavedJobs } from "../../services/job_services";
-import { getUserSavedCompanies } from "../../services/company_services";
+import { getUser } from "../../services/user_services";
 
 const MySaved = ({ jobs, companies }) => {
   const { isAuth } = useSelector((state) => state.auth);
@@ -80,13 +79,12 @@ export async function getStaticPaths() {
 export async function getStaticProps(context) {
   const { params } = context;
   const userId = params.userId;
-  const { data } = await getUserSavedJobs(userId);
-  const companies = await getUserSavedCompanies(userId);
+  const { data } = await getUser(userId);
 
   return {
     props: {
-      jobs: data.jobs,
-      companies: companies.data.companies,
+      jobs: data.user.savedJobs,
+      companies: data.user.savedCompanies,
     },
   };
 }

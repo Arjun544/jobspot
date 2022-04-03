@@ -10,7 +10,6 @@ import { AiFillClockCircle } from "react-icons/ai";
 import { MdOutlineWork, MdEmail, MdGroup, MdReviews } from "react-icons/md";
 import {
   applyJob,
-  getAllJobs,
   getJob,
   saveJob,
 } from "../../services/job_services";
