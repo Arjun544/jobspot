@@ -175,7 +175,7 @@ const Login = () => {
                 )}
                 onSuccess={async (response) => {
                   try {
-                    isLoading = true;
+                    setIsLoading(true);
                     const { data } = await gmailLogin(
                       response.profileObj.email
                     );
