@@ -74,6 +74,7 @@ export async function getStaticPaths() {
   return {
     paths: [],
     fallback: true,
+    rev
   };
 }
 
@@ -87,5 +88,6 @@ export async function getStaticProps(context) {
       jobs: data.user.savedJobs,
       companies: data.user.savedCompanies,
     },
+    revalidate: 10,
   };
 }

@@ -210,5 +210,6 @@ export async function getStaticProps(context) {
     props: {
       company: data.company,
     },
+    revalidate: 10,
   };
 }
