@@ -23,7 +23,7 @@ const MyJobs = ({ jobs }) => {
       <div className="h-screen w-screen bg-white">
         <TopBar />
         {/* If user not login */}
-        {!isAuth && (
+        {!isAuth ? (
           <div className="flex h-full w-full flex-col items-center justify-center">
             <div className="flex h-72 w-72 items-center justify-center">
               <Lottie animationData={login} autoPlay={true} loop={true} />
@@ -32,13 +32,14 @@ const MyJobs = ({ jobs }) => {
               Login to view your jobs
             </span>
           </div>
+        ) : (
+          <div className="flex flex-col px-10 pt-80 md:px-16 md:pt-20">
+            <span className="text-sm font-semibold tracking-wider md:text-base">
+              Your jobs
+            </span>
+            <JobsView jobs={jobs} />
+          </div>
         )}
-        <div className="flex flex-col px-10 pt-80 md:px-16 md:pt-20">
-          <span className="text-sm font-semibold tracking-wider md:text-base">
-            Your jobs
-          </span>
-          <JobsView jobs={jobs} />
-        </div>
       </div>
     </>
   );

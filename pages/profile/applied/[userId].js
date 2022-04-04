@@ -12,7 +12,7 @@ const MyAppliedJobs = ({ jobs }) => {
 
   return (
     <>
-    <Head>
+      <Head>
         <title>My Applied Jobs - Jobspot</title>
         <meta
           name="Jobspot is a job listing platform, where you can create jobs and hire people as individual or as a company."
@@ -20,27 +20,28 @@ const MyAppliedJobs = ({ jobs }) => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-    <div className="h-screen w-screen bg-white">
-      <TopBar />
-      {/* If user not login */}
-      {!isAuth && (
-        <div className="flex h-full w-full flex-col items-center justify-center">
-          <div className="flex h-72 w-72 items-center justify-center">
-            <Lottie animationData={login} autoPlay={true} loop={true} />
+      <div className="h-screen w-screen bg-white">
+        <TopBar />
+        {/* If user not login */}
+        {!isAuth ? (
+          <div className="flex h-full w-full flex-col items-center justify-center">
+            <div className="flex h-72 w-72 items-center justify-center">
+              <Lottie animationData={login} autoPlay={true} loop={true} />
+            </div>
+            <span className="font-semibold tracking-widest text-slate-400">
+              Login to view your applied jobs
+            </span>
           </div>
-          <span className="font-semibold tracking-widest text-slate-400">
-            Login to view your applied jobs
-          </span>
-        </div>
-      )}
-      <div className="flex flex-col px-10 pt-80 md:px-16 md:pt-20">
-        <span className="text-sm font-semibold tracking-wider md:text-base">
-          Your Applied jobs
-        </span>
-        <JobsView jobs={jobs} />
+        ) : (
+          <div className="flex flex-col px-10 pt-80 md:px-16 md:pt-20">
+            <span className="text-sm font-semibold tracking-wider md:text-base">
+              Your Applied jobs
+            </span>
+            <JobsView jobs={jobs} />
+          </div>
+        )}
       </div>
-    </div>
-</>
+    </>
   );
 };
 

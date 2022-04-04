@@ -24,7 +24,7 @@ const MyCompanies = ({ company }) => {
       <div className="h-screen w-screen bg-white">
         <TopBar />
         {/* If user not login */}
-        {!isAuth && (
+        {!isAuth ? (
           <div className="flex h-full w-full flex-col items-center justify-center">
             <div className="flex h-72 w-72 items-center justify-center">
               <Lottie animationData={login} autoPlay={true} loop={true} />
@@ -33,24 +33,25 @@ const MyCompanies = ({ company }) => {
               Login to view your company
             </span>
           </div>
-        )}
-        <div className="flex flex-col px-10 pt-80 md:px-16 md:pt-20">
-          <span className="text-sm font-semibold tracking-wider md:text-base">
-            Your company
-          </span>
-          {company === null ? (
-            <div className="flex h-full w-full flex-col items-center pt-20">
-              <div className="flex h-72 w-72 items-center justify-center">
-                <Lottie animationData={empty} autoPlay={true} loop={true} />
+        ) : (
+          <div className="flex flex-col px-10 pt-80 md:px-16 md:pt-20">
+            <span className="text-sm font-semibold tracking-wider md:text-base">
+              Your company
+            </span>
+            {company === null ? (
+              <div className="flex h-full w-full flex-col items-center pt-20">
+                <div className="flex h-72 w-72 items-center justify-center">
+                  <Lottie animationData={empty} autoPlay={true} loop={true} />
+                </div>
+                <span className="font-semibold tracking-widest text-slate-300">
+                  No Company found
+                </span>
               </div>
-              <span className="font-semibold tracking-widest text-slate-300">
-                No Company found
-              </span>
-            </div>
-          ) : (
-            <CompaniesView companies={[company]} />
-          )}
-        </div>
+            ) : (
+              <CompaniesView companies={[company]} />
+            )}
+          </div>
+        )}
       </div>
     </>
   );
