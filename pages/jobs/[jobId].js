@@ -313,14 +313,7 @@ const JobDetails = ({ job }) => {
 
 export default JobDetails;
 
-export async function getStaticPaths() {
-  return {
-    paths: [],
-    fallback: true, // false or 'blocking'
-  };
-}
-
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
   const { params } = context;
   const jobId = params.jobId;
   const { data } = await getJob(jobId);
@@ -328,6 +321,5 @@ export async function getStaticProps(context) {
     props: {
       job: data.job,
     },
-    revalidate: 1,
   };
 }

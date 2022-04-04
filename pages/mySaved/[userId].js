@@ -70,14 +70,7 @@ const MySaved = ({ jobs, companies }) => {
 
 export default MySaved;
 
-export async function getStaticPaths() {
-  return {
-    paths: [],
-    fallback: true,
-  };
-}
-
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
   const { params } = context;
   const userId = params.userId;
   const { data } = await getUser(userId);
@@ -87,6 +80,5 @@ export async function getStaticProps(context) {
       jobs: data.user.savedJobs,
       companies: data.user.savedCompanies,
     },
-    revalidate: 1,
   };
 }

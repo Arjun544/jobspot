@@ -59,14 +59,7 @@ const MyCompanies = ({ company }) => {
 
 export default MyCompanies;
 
-export async function getStaticPaths() {
-  return {
-    paths: [],
-    fallback: true, // false or 'blocking'
-  };
-}
-
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
   const { params } = context;
   const userId = params.userId;
   const { data } = await getUserCompany(userId);
@@ -75,6 +68,5 @@ export async function getStaticProps(context) {
     props: {
       company: data.company,
     },
-    revalidate: 1,
   };
 }

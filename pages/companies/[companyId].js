@@ -202,7 +202,7 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
   const { params } = context;
   const companyId = params.companyId;
   const { data } = await getCompany(companyId);
@@ -210,6 +210,5 @@ export async function getStaticProps(context) {
     props: {
       company: data.company,
     },
-    revalidate: 1,
   };
 }
