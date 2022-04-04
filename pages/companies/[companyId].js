@@ -195,13 +195,6 @@ const CompanyDetails = ({ company }) => {
 
 export default CompanyDetails;
 
-export async function getStaticPaths() {
-  return {
-    paths: [],
-    fallback: true, // false or 'blocking'
-  };
-}
-
 export async function getServerSideProps(context) {
   const { params } = context;
   const companyId = params.companyId;
