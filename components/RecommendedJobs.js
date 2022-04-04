@@ -49,7 +49,7 @@ const RecommendedJobs = ({ isAllJobs = false }) => {
       );
       isSave ? setIsSave(false) : setIsSave(true);
     } catch (error) {
-      console.log(error);
+      
       toast.error("Something went wrong");
     }
   };
