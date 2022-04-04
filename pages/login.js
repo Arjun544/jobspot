@@ -118,7 +118,7 @@ const Login = () => {
                 placeholder="Enter your password"
                 required
                 minLength={6}
-                className={`w-full border-0 bg-white py-4 pl-4 ${
+                className={`w-full border-0 focus:ring-0 bg-white py-4 pl-4 ${
                   pass ? "rounded-l-xl" : "rounded-xl"
                 } `}
                 onChange={(e) => setPass(e.target.value)}

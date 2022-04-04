@@ -11,7 +11,7 @@ const SearchSection = () => {
   const { query, setQuery, setFilteredJobs, setSearchedJobs } =
     useContext(AppContext);
   const [salary, setSalary] = useState(30000);
-  const [selectedCity, setSelectedCity] = useState(isAuth ? user.city : "");
+  const [selectedCity, setSelectedCity] = useState(isAuth ? user.city : "Karachi, Sindh, Pakistan");
 
   const handleSearch = async (e) => {
     e.preventDefault();
