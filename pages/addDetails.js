@@ -57,8 +57,8 @@ const Apply = () => {
             profile: profile[0].getFileEncodeDataURL(),
             cv: cv[0].getFileEncodeDataURL(),
           };
-          setIsLoading(false);
           const { data } = await updateUser(newUser);
+          setIsLoading(false);
           if (data.success === true) {
             dispatch(
               setAuth({
@@ -106,6 +106,7 @@ const Apply = () => {
             company,
             companyImage[0].getFileEncodeDataURL()
           );
+          setIsLoading(false);
           // Add user to redux
           if (data.success === true) {
             dispatch(
@@ -117,8 +118,6 @@ const Apply = () => {
 
             router.push("/");
           }
-          setIsLoading(false);
-          router.push("/");
         } catch (error) {
           setIsLoading(false);
           console.log(error);
