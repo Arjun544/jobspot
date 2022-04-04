@@ -43,7 +43,6 @@ const CommentDialogue = ({
       router.push(`/jobs/${jobId}`);
     } catch (error) {
       setIsLoading(false);
-      console.log(error);
       toast.error("Something went wrong");
     }
   };
