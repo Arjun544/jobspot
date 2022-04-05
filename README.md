@@ -2,6 +2,11 @@
 
 ### Jobspot is a job listing platform, where you can create jobs and hire people as individual or as a company.
 
+## Tech Stack :
+#### Next Js
+#### Prisma io
+#### Postgresql
+
 ## Live :
 
 ### Link : https://jobspot.vercel.app/
