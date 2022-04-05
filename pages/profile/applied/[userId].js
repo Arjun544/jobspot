@@ -33,7 +33,7 @@ const MyAppliedJobs = ({ jobs }) => {
             </span>
           </div>
         ) : (
-          <div className="flex flex-col px-10 pt-80 md:px-16 md:pt-20">
+          <div className="flex flex-col px-10 pt-20 md:px-16 md:pt-20">
             <span className="text-sm font-semibold tracking-wider md:text-base">
               Your Applied jobs
             </span>
