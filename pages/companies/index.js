@@ -22,7 +22,7 @@ function Companies({ companies }) {
         <TopBar />
         <SearchSection />
 
-        <div className="flex h-screen w-full flex-col px-6 pt-80 md:px-16 md:pt-44">
+        <div className="flex h-screen w-full flex-col px-6 pt-96 md:px-16 md:pt-44">
           <div className="flex items-center gap-2 pb-3 md:pb-0">
             <span className="text-sm font-semibold tracking-wider md:text-base">
               All Companies

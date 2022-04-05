@@ -18,7 +18,7 @@ function Jobs({ jobs }) {
         <TopBar />
         <SearchSection />
 
-        <div className="flex h-screen px-6 pt-80 md:px-16 md:pt-44">
+        <div className="flex h-screen px-6 pt-96 md:px-16 md:pt-44">
           {/* filters */}
           <Filters jobs={jobs} isAllJobs={true} />
           <RecommendedJobs isAllJobs={true} />

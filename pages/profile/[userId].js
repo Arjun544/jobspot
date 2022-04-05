@@ -118,7 +118,7 @@ const Profile = ({ user }) => {
             </span>
           </div>
         ) : (
-          <div className="m-auto flex w-2/3 flex-col gap-6 px-10 pt-80 md:px-16 md:pt-20">
+          <div className="m-auto flex w-2/3 flex-col gap-6 px-0 pt-20 md:px-16 md:pt-20">
             <span className="font-medium tracking-widest">Your Profile</span>
             <div className="flex items-center justify-between rounded-xl bg-slate-100 px-6 py-4 shadow-sm transition-all duration-500 ease-in-out">
               {!isEditing ? (
@@ -195,7 +195,7 @@ const Profile = ({ user }) => {
                 />
               )}
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col gap-4 md:gap-0 md:flex md:flex-row items-center justify-between">
               <div
                 onClick={(e) =>
                   user.jobs.length > 0 &&

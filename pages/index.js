@@ -21,7 +21,7 @@ function Home({ jobs }) {
         <TopBar />
         <SearchSection />
 
-        <div className="flex h-screen px-6 pt-80 md:px-16 md:pt-40">
+        <div className="flex h-screen px-6 pt-96 md:px-16 md:pt-40">
           {/* filters */}
           <Filters jobs={jobs} />
           <RecommendedJobs />

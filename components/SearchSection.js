@@ -11,7 +11,9 @@ const SearchSection = () => {
   const { query, setQuery, setFilteredJobs, setSearchedJobs } =
     useContext(AppContext);
   const [salary, setSalary] = useState(30000);
-  const [selectedCity, setSelectedCity] = useState(isAuth ? user.city : "Karachi, Sindh, Pakistan");
+  const [selectedCity, setSelectedCity] = useState(
+    isAuth ? user.city : "Karachi, Sindh, Pakistan"
+  );
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -32,7 +34,7 @@ const SearchSection = () => {
   };
 
   return (
-    <div className="fixed top-16 z-40 mt-0 flex h-1/3 w-full flex-col items-center justify-between gap-10 bg-white py-3 px-6 shadow md:flex md:h-20 md:flex-row md:px-16">
+    <div className="fixed top-16 z-40 mt-0 flex w-full flex-col items-center gap-6 md:gap-10 bg-white py-3 px-6 shadow md:flex md:h-20 md:flex-row md:px-16">
       {/* Searchbar */}
       <div className="flex h-16 w-full items-center gap-4 rounded-xl bg-slate-200 pl-4 shadow md:h-full md:w-1/2">
         <RiSearch2Fill className="fill-slate-500" fontSize={22} />
