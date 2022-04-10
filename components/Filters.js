@@ -113,7 +113,7 @@ const Filters = ({ jobs, isAllJobs = false }) => {
   }
 
   return (
-    <div className="mt-2 flex flex-col gap-10 bg-slate-50">
+    <div className="mt-2 flex flex-col gap-10 bg-white">
       <span className="text-sm font-semibold tracking-wider md:text-base">
         Filters
       </span>

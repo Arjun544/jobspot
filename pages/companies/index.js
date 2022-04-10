@@ -18,7 +18,7 @@ function Companies({ companies }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="bg-slate-50 ">
+      <main className="bg-white">
         <TopBar />
         <SearchSection />
 
