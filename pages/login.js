@@ -118,7 +118,7 @@ const Login = () => {
                 placeholder="Enter your password"
                 required
                 minLength={6}
-                className={`w-full border-0 focus:ring-0 bg-white py-4 pl-4 ${
+                className={`w-full border-0 bg-white py-4 pl-4 focus:ring-0 ${
                   pass ? "rounded-l-xl" : "rounded-xl"
                 } `}
                 onChange={(e) => setPass(e.target.value)}
@@ -202,7 +202,10 @@ const Login = () => {
                     return toast.error(error.message);
                   }
                 }}
-                onFailure={(response) => toast.error(response.details)}
+                onFailure={(error) => {
+                  console.log(error);
+                  toast.error("Something went wrong");
+                }}
                 cookiePolicy={"single_host_origin"}
               />
             )}

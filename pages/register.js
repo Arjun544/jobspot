@@ -226,7 +226,10 @@ const Register = () => {
                     return toast.error(error.message);
                   }
                 }}
-                onFailure={(response) => toast.error("Something went wrong")}
+                onFailure={(error) => {
+                  console.log(error);
+                  toast.error("Something went wrong");
+                }}
                 cookiePolicy={"single_host_origin"}
               />
             )}

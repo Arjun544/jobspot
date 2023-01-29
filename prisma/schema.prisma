@@ -62,7 +62,7 @@ model Job {
   userId      Int
   reviews     Review[]
   applicants  User[]
-  saveBy      User[]   @relation("savedJobs", references: [id])
+  saveBy      User[]   @relation("savedJobs")
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
   company     Company? @relation(fields: [companyId], references: [id])
@@ -93,7 +93,7 @@ model Company {
   industry  String
   website   String
   contact   String
-  saveBy    User[]   @relation("savedCompanies", references: [id])
+  saveBy    User[]   @relation("savedCompanies")
   jobs      Job[]
   reviews   Review[]
   createdAt DateTime @default(now())
