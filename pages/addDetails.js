@@ -71,7 +71,6 @@ const Apply = () => {
           }
         } catch (error) {
           setIsLoading(false);
-          console.log(error);
           toast.error(error.message);
         }
       }
